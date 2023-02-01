@@ -4,4 +4,3 @@ streamlit
 nltk
 tensorflow
 requests
-beautifulsoup4 

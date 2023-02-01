@@ -20,7 +20,6 @@ from pathlib import Path
 import nltk
 import warnings
 
-from google.colab import drive
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")
 st.markdown("<h1 style='text-align: center; color: white;'>EXTRACTIVE BASED TEXT SUMMARIZATION USING SENTIMENT ANALYSIS</h1>", unsafe_allow_html=True)
@@ -86,12 +85,8 @@ if choice == 'Summarize':
       st.write(type_file)
       file_details = {"filename":uploaded_file.name,"filetype":uploaded_file.type,"filesize":uploaded_file.size}
       st.write(file_details)
-      #df = pd.read_csv(uploaded_file)
-      drive.mount('/content/drive')
-      %cd /content/drive/My Drive/Colab Notebooks/
-
-      data = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/train4.csv')
-      st.dataframe(data)
+      df = pd.read_csv(uploaded_file)
+      st.dataframe(df)
    if st.button("Summarize"):
       st.write(raw_text)
       st.button("Copy text")

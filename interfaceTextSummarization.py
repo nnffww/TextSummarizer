@@ -8,7 +8,7 @@ import urllib
 from urllib.request import urlopen
 import urllib3
 import re           
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 from keras.preprocessing.text import Tokenizer 
 from keras_preprocessing.sequence import pad_sequences
 from nltk.corpus import stopwords   
@@ -92,7 +92,7 @@ if choice == 'Summarize':
       stop_words = set(stopwords.words('english')) 
       def text_cleaner(text):
         newString = text.lower()
-        newString = BeautifulSoup(newString, "lxml").text
+        #newString = BeautifulSoup(newString, "lxml").text
         newString = re.sub(r'\([^)]*\)', '', newString)
         newString = re.sub('"','', newString)
         newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    

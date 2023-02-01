@@ -22,7 +22,7 @@ from tensorflow.keras.utils import plot_model
 from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping
-from Attention import AttentionLayer
+from attention import AttentionLayer
 warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")

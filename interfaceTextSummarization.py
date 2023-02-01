@@ -9,6 +9,21 @@ from urllib.request import urlopen
 import urllib3
 import re   
 import warnings
+import os
+nltk.download('stopwords')
+nltk.download('punkt')
+from nltk.corpus import stopwords 
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.stem import WordNetLemmatizer
+from string import punctuation
+from nltk.cluster.util import cosine_distance
+from tensorflow import keras
+from tensorflow.keras import Sequential
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed
+from tensorflow.keras.utils import plot_model
+from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")

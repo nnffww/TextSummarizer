@@ -17,12 +17,12 @@ from nltk.cluster.util import cosine_distance
 from tensorflow import keras
 from tensorflow.keras import Sequential
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed, Concatenate
+from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed, Concatenate, Attention
 from tensorflow.keras.utils import plot_model
 from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping
-from attention import AttentionLayer
+from Attention import AttentionLayer
 warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")

@@ -10,7 +10,7 @@ import urllib3
 import re           
 #from bs4 import BeautifulSoup
 from keras.preprocessing.text import Tokenizer 
-from keras_preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from nltk.corpus import stopwords   
 import tensorflow
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, TimeDistributed, Bidirectional

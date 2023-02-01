@@ -17,8 +17,9 @@ from nltk.cluster.util import cosine_distance
 from tensorflow import keras
 from tensorflow.keras import Sequential
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed, Concatenate, attention
+from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed, Concatenate, Attention
 from tensorflow.keras.utils import plot_model
+from keras.layers import Attention
 from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping

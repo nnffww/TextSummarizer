@@ -6,6 +6,7 @@ import requests
 import re   
 import warnings
 import os
+import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 from nltk.corpus import stopwords 

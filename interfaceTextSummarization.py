@@ -8,7 +8,7 @@ import urllib
 from urllib.request import urlopen
 import urllib3
 import re           
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup4 
 from keras.preprocessing.text import Tokenizer 
 from keras_preprocessing.sequence import pad_sequences
 from nltk.corpus import stopwords   

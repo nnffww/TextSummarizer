@@ -87,8 +87,8 @@ if choice == 'Summarize':
       st.write(type_file)
       file_details = {"filename":uploaded_file.name,"filetype":uploaded_file.type,"filesize":uploaded_file.size}
       st.write(file_details)
-      df = pd.read_csv(uploaded_file)
-      st.dataframe(df)
+      data = pd.read_csv(uploaded_file)
+      st.dataframe(data)
    if st.button("Summarize"):
       stop_words = set(stopwords.words('english')) 
       def text_cleaner(text):
@@ -109,6 +109,6 @@ if choice == 'Summarize':
       for t in data['Text']:
         cleaned_text.append(text_cleaner(t))
         
-      st.dataframe(df)
+      st.dataframe(data)
        
   

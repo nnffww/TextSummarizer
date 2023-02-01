@@ -108,5 +108,7 @@ if choice == 'Summarize':
       cleaned_text = []
       for t in data['Text']:
         cleaned_text.append(text_cleaner(t))
+        
+      st.dataframe(df)
        
   

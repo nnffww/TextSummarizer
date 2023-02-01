@@ -7,6 +7,20 @@ import urllib.request
 import urllib
 from urllib.request import urlopen
 import urllib3
+import re           
+from bs4 import BeautifulSoup 
+from keras.preprocessing.text import Tokenizer 
+from keras_preprocessing.sequence import pad_sequences
+from nltk.corpus import stopwords   
+from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, TimeDistributed, Bidirectional
+from tensorflow.keras.models import Model
+from tensorflow.keras.callbacks import EarlyStopping
+from collections import defaultdict
+from pathlib import Path
+import nltk
+import warnings
+
+from google.colab import drive
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")
 st.markdown("<h1 style='text-align: center; color: white;'>EXTRACTIVE BASED TEXT SUMMARIZATION USING SENTIMENT ANALYSIS</h1>", unsafe_allow_html=True)
@@ -72,8 +86,12 @@ if choice == 'Summarize':
       st.write(type_file)
       file_details = {"filename":uploaded_file.name,"filetype":uploaded_file.type,"filesize":uploaded_file.size}
       st.write(file_details)
-      df = pd.read_csv(uploaded_file)
-      st.dataframe(df)
+      #df = pd.read_csv(uploaded_file)
+      drive.mount('/content/drive')
+      %cd /content/drive/My Drive/Colab Notebooks/
+
+      data = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/train4.csv')
+      st.dataframe(data)
    if st.button("Summarize"):
       st.write(raw_text)
       st.button("Copy text")

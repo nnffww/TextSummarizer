@@ -3,10 +3,6 @@ import pandas as pd
 import numpy as np
 import io
 import requests
-import urllib.request
-import urllib
-from urllib.request import urlopen
-import urllib3
 import re   
 import warnings
 import os

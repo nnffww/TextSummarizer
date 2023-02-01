@@ -7,12 +7,12 @@ import urllib.request
 import urllib
 from urllib.request import urlopen
 import urllib3
-import re           
+import re   
+import tensorflow
 from tensorflow import keras
 from keras.preprocessing.text import Tokenizer 
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from nltk.corpus import stopwords   
-import tensorflow
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, TimeDistributed, Bidirectional
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping

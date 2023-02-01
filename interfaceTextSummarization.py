@@ -19,6 +19,7 @@ from collections import defaultdict
 from pathlib import Path
 import nltk
 import warnings
+nltk.download('stopwords')
 
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")
@@ -88,7 +89,24 @@ if choice == 'Summarize':
       df = pd.read_csv(uploaded_file)
       st.dataframe(df)
    if st.button("Summarize"):
-      st.write(raw_text)
-      st.button("Copy text")
-      st.write("Words:")
+      stop_words = set(stopwords.words('english')) 
+      def text_cleaner(text):
+        newString = text.lower()
+        newString = BeautifulSoup(newString, "lxml").text
+        newString = re.sub(r'\([^)]*\)', '', newString)
+        newString = re.sub('"','', newString)
+        newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
+        newString = re.sub(r"'s\b","",newString)
+        newString = re.sub("[^a-zA-Z]", " ", newString) 
+        tokens = [w for w in newString.split() if not w in stop_words]
+        long_words=[]
+        for i in tokens:
+            if len(i)>=3:                  #removing short word
+                long_words.append(i)   
+        return (" ".join(long_words)).strip()
+
+      cleaned_text = []
+      for t in data['Text']:
+        cleaned_text.append(text_cleaner(t))
+       
   

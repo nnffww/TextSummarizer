@@ -19,11 +19,11 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed, Concatenate, Attention
 from tensorflow.keras.utils import plot_model
-from keras.layers import Attention
+#from keras.layers import Attention
 from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping
-from attention import AttentionLayer
+#from attention import AttentionLayer
 warnings.filterwarnings("ignore")
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")

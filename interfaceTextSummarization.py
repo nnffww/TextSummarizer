@@ -9,7 +9,6 @@ from urllib.request import urlopen
 import urllib3
 import re   
 import warnings
-nltk.download('stopwords')
 
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")

@@ -12,6 +12,7 @@ import re
 from keras.preprocessing.text import Tokenizer 
 from keras_preprocessing.sequence import pad_sequences
 from nltk.corpus import stopwords   
+import tensorflow
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, TimeDistributed, Bidirectional
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import EarlyStopping

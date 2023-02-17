@@ -185,6 +185,10 @@ if choice == 'Summarize':
 
       max_len_text=80 
       max_len_summary=10
+
+      from shutil import copyfile
+
+      copyfile(src="./attention/attention.py", dst="./attention.py")
         
       st.dataframe(data)
        

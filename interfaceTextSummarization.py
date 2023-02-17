@@ -9,7 +9,7 @@ import os
 import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
-from nltk.corpus import stopwords 
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.stem import WordNetLemmatizer
 from string import punctuation
@@ -23,9 +23,8 @@ from tensorflow.keras.utils import plot_model
 from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping
-from bs4 import BeautifulSoup
 import warnings
-from attention import AttentionLayer
+#from attention import AttentionLayer
 pd.set_option("display.max_colwidth", 200)
 warnings.filterwarnings("ignore")
 

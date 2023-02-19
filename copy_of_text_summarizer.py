@@ -71,8 +71,6 @@ if choice == 'Summarize':
       df = pd.read_csv(uploaded_file)
       st.dataframe(df)
    if st.button("Summarize"):
-      
-    df = pd.read_csv(r'C:\Users\USER\Documents\GitHub\TextSummarizer\train4.csv')
 
 contraction_map = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 

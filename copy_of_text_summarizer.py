@@ -304,7 +304,7 @@ if choice == 'Summarize':
         input_seq = tokenizer.texts_to_sequences([inputText])
         
         # Pad the input sequence to a maximum length of max_text_len
-        input_seq = pad_sequences(input_seq, maxlen=max_text_len, padding='post')
+        input_seq = pad_sequences(input_seq, maxlen=max_len_text, padding='post')
 
         # Encode the input as state vectors.
         e_out, e_h, e_c = encoder_model.predict(input_seq)

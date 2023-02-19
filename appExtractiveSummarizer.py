@@ -678,8 +678,7 @@ if choice == 'Summarize':
          st.dataframe(Df)
          
          stop = stopwords.words('english')
-         Df['Text']= Df['Text'].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
-         st.success('Stopwords')     
+         Df['Text']= Df['Text'].apply(lambda x: " ".join(x for x in x.split() if x not in stop))    
          stopwords = nltk.corpus.stopwords.words('english')
          
       
@@ -753,7 +752,7 @@ if choice == 'Summarize':
                }
             )
 
-         st.success('Summary', icon="✅")
+         st.success('Summarrized', icon="✅")
          # Boolean to resize the dataframe, stored as a session state variable
          st.checkbox("Use container width", value=False, key="use_container_width")
          

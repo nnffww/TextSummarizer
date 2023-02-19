@@ -156,8 +156,8 @@ if choice == 'Summarize':
 
     #Call the above function
     cleaned_summary = []
-      for t in df['Summary']:
-        cleaned_summary.append(summary_cleaner(t))
+    for t in df['Summary']:
+      cleaned_summary.append(summary_cleaner(t))
 
     df['cleaned_text']=cleaned_text
     df['cleaned_summary']=cleaned_summary

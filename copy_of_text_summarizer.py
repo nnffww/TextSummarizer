@@ -292,19 +292,19 @@ if choice == 'Summarize':
       [decoder_inputs] + [decoder_hidden_state_input,decoder_state_input_h, decoder_state_input_c],
       [decoder_outputs2] + [state_h2, state_c2])
 
-def decode_sequence(input_sequence):
-    # Encode the input as state vectors.
-    e_out, e_h, e_c = encoder_model.predict(input_sequence)
+    def decode_sequence(input_sequence):
+      # Encode the input as state vectors.
+      e_out, e_h, e_c = encoder_model.predict(input_sequence)
 
-    # Generate empty target sequence of length 1.
-    target_seq = np.zeros((1,1))
+      # Generate empty target sequence of length 1.
+      target_seq = np.zeros((1,1))
 
-    # Chose the 'start' word as the first word of the target sequence
-    target_seq[0, 0] = target_word_index['sostok']
+      # Chose the 'start' word as the first word of the target sequence
+      target_seq[0, 0] = target_word_index['sostok']
 
-    stop_condition = False
-    decoded_sentence = ''
-    while not stop_condition:
+      stop_condition = False
+      decoded_sentence = ''
+      while not stop_condition:
         output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
 
         # Sample a token
@@ -312,10 +312,10 @@ def decode_sequence(input_sequence):
         sampled_token = reverse_target_word_index[sampled_token_index]
 
         if(sampled_token!='eostok'):
-            decoded_sentence += ' '+sampled_token
+          decoded_sentence += ' '+sampled_token
 
-            # Exit condition: either hit max length or find stop word.
-            if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
+          # Exit condition: either hit max length or find stop word.
+          if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
                 stop_condition = True
 
         # Update the target sequence (of length 1).
@@ -325,25 +325,25 @@ def decode_sequence(input_sequence):
         # Update internal states
         e_h, e_c = h, c
 
-    return decoded_sentence
+      return decoded_sentence
     
-## Making the seq2seq summary
-def seq2seqsummary(input_sequence):
-    newString=''
-    for i in input_sequence:
-      if((i!=0 and i!=target_word_index['sostok']) and i!=target_word_index['eostok']):
-        newString=newString+reverse_target_word_index[i]+' '
-    return newString
+    ## Making the seq2seq summary
+    def seq2seqsummary(input_sequence):
+      newString=''
+      for i in input_sequence:
+        if((i!=0 and i!=target_word_index['sostok']) and i!=target_word_index['eostok']):
+          newString=newString+reverse_target_word_index[i]+' '
+      return newString
 
-def seq2text(input_sequence):
-    newString=''
-    for i in input_sequence:
-      if(i!=0):
-        newString=newString+reverse_source_word_index[i]+' '
-    return newString
+    def seq2text(input_sequence):
+      newString=''
+      for i in input_sequence:
+        if(i!=0):
+          newString=newString+reverse_source_word_index[i]+' '
+      return newString
 
-text = "stream"
-print("Summarized:",decode_sequence(text.reshape(1,max_len_text)))
-print("\n")
+    text = "stream"
+    print("Summarized:",decode_sequence(text.reshape(1,max_len_text)))
+    print("\n")
 
 

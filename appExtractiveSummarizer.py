@@ -746,7 +746,6 @@ if choice == 'Summarize':
                {
                   "Title": [Df['Title'][0], Df['Title'][1], Df['Title'][2], Df['Title'][3], Df['Title'][4], Df['Title'][5], Df['Title'][6], Df['Title'][7], Df['Title'][8], Df['Title'][9]],
                   "Orignal Text" : [original1, original2, original3, original4, original5, original6, original7, original8, original9, original10],
-                  #"Original Content": [Df['Description'][0], Df['Description'][1], Df['Description'][2], Df['Description'][3], Df['Description'][4], Df['Description'][5], Df['Description'][6], Df['Description'][7], Df['Description'][8], Df['Description'][9], Df['Description'][10], Df['Description'][11], Df['Description'][12], Df['Description'][13], Df['Description'][14]],
                   "Summarized Text": [str1, str2, str3, str4, str5, str6, str7, str8, str9, str10],
                   "Count of Words": [len(str1.split()), len(str2.split()), len(str3.split()), len(str4.split()), len(str5.split()), len(str6.split()), len(str7.split()), len(str8.split()), len(str9.split()), len(str10.split())],
                }
@@ -758,6 +757,4 @@ if choice == 'Summarize':
          
          df = load_data()
 
-         # Display the dataframe and allow the user to stretch the dataframe
-         # across the full width of the container, based on the checkbox value
-         st.dataframe(df, use_container_width=st.session_state.use_container_width)
+      

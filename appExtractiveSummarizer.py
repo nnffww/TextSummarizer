@@ -679,16 +679,14 @@ if choice == 'Summarize':
          
          stop = stopwords.words('english')
          Df['Text']= Df['Text'].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
-         st.success('Stopwords')
-         st.write("List of stopwords:")
+         st.success('Stopwords')     
          stopwords = nltk.corpus.stopwords.words('english')
-         st.write(stopwords[:10])
          
+      
          st.success('Word Tokenize')
          for i in range(len(Df)):
             sToken = nltk.word_tokenize(Df['Text'][i])
-            st.write(i+1, "Text")
-            st.write(sToken)
+            
          
          #X_train,X_val,Y_train,Y_val=train_test_split(Df['Description'],Df['Title'],test_size=0.3,random_state=20)
          #st.write(len(X_train),len(Y_train))
@@ -748,9 +746,9 @@ if choice == 'Summarize':
             return pd.DataFrame(
                {
                   "Title": [Df['Title'][0], Df['Title'][1], Df['Title'][2], Df['Title'][3], Df['Title'][4], Df['Title'][5], Df['Title'][6], Df['Title'][7], Df['Title'][8], Df['Title'][9]],
-                  "Orignal Content" : [original1, original2, original3, original4, original5, original6, original7, original8, original9, original10],
+                  "Orignal Text" : [original1, original2, original3, original4, original5, original6, original7, original8, original9, original10],
                   #"Original Content": [Df['Description'][0], Df['Description'][1], Df['Description'][2], Df['Description'][3], Df['Description'][4], Df['Description'][5], Df['Description'][6], Df['Description'][7], Df['Description'][8], Df['Description'][9], Df['Description'][10], Df['Description'][11], Df['Description'][12], Df['Description'][13], Df['Description'][14]],
-                  "Summary": [str1, str2, str3, str4, str5, str6, str7, str8, str9, str10],
+                  "Summarized Text": [str1, str2, str3, str4, str5, str6, str7, str8, str9, str10],
                   "Count of Words": [len(str1.split()), len(str2.split()), len(str3.split()), len(str4.split()), len(str5.split()), len(str6.split()), len(str7.split()), len(str8.split()), len(str9.split()), len(str10.split())],
                }
             )

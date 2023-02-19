@@ -316,7 +316,7 @@ if choice == 'Summarize':
 
         stop_condition = False
         decoded_sentence = ''
-            while not stop_condition:
+        while not stop_condition:
             output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
 
             # Sample a token

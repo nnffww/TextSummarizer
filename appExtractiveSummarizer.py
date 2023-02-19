@@ -708,10 +708,6 @@ if choice == 'Summarize':
                count += 1
                frequency += value
          
-         st.write("% of rare words in vocabulary: ", (count/total_count)*100.0)
-         st.write("Total Coverage of rare words: ", (frequency/total_frequency)*100.0)
-         s_max_features = total_count-count
-         st.write("Summary Vocab: ", s_max_features)
          
          countOfWords1 = len(Df['Text'][0].split())
          countOfWords2 = len(Df['Text'][1].split())
@@ -751,9 +747,8 @@ if choice == 'Summarize':
                }
             )
 
-         st.success('Summarrized', icon="✅")
+         st.success('Summarrized')
          # Boolean to resize the dataframe, stored as a session state variable
-         st.checkbox("Use container width", value=False, key="use_container_width")
          
          df = load_data()
          

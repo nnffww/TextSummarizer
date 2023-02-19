@@ -342,7 +342,6 @@ if choice == 'Summarize':
           newString=newString+reverse_source_word_index[i]+' '
       return newString
 
-    text = "stream"
     print("Summarized:",decode_sequence(text.reshape(1,max_len_text)))
     print("\n")
 

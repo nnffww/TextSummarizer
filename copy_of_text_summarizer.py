@@ -320,7 +320,7 @@ if choice == 'Summarize':
             newString=''
             for i in input_sequence:
                 if((i!=0 and i!=target_word_index['sostok']) and i!=target_word_index['eostok']):
-                newString=newString+reverse_target_word_index[i]+' '
+                    newString=newString+reverse_target_word_index[i]+' '
             return newString
 
         def seq2text(input_sequence):

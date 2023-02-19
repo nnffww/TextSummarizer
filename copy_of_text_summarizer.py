@@ -1,13 +1,10 @@
-pip install beautifulsoup4
-
 import streamlit as st 
 import numpy as np  
 import pandas as pd 
 import io
 import requests
 import re  
-import os         
-from bs4 import BeautifulSoup 
+import os          
 from tensorflow import keras
 from tensorflow.keras import layers
 from keras.preprocessing.text import Tokenizer 
@@ -131,7 +128,6 @@ nltk.download('stopwords')
 stop_words = set(stopwords.words('english')) 
 def text_cleaner(text):
     newString = text.lower()
-    newString = BeautifulSoup(newString, "lxml").text
     newString = re.sub(r'\([^)]*\)', '', newString)
     newString = re.sub('"','', newString)
     newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    

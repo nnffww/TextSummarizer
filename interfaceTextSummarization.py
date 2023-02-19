@@ -324,7 +324,7 @@ if choice == 'Summarize':
             sampled_token = reverse_target_word_index[sampled_token_index]
 
             if(sampled_token!='eostok'):
-            decoded_sentence += ' '+sampled_token
+                decoded_sentence += ' '+sampled_token
 
                 # Exit condition: either hit max length or find stop word.
                 if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):

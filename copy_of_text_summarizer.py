@@ -108,25 +108,25 @@ if choice == 'Summarize':
             long_words=[]
             for i in tokens:
                 if len(i)>=3:                  #removing short word
-                long_words.append(i)   
+                    long_words.append(i)   
             return (" ".join(long_words)).strip()
 
             cleaned_text = []
             for t in df['Text']:
             cleaned_text.append(text_cleaner(t))
 
-            def summary_cleaner(text):
-                newString = re.sub('"','', text)
-                newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
-                newString = re.sub(r"'s\b","",newString)
-                newString = re.sub("[^a-zA-Z]", " ", newString)
-                newString = newString.lower()
-                tokens=newString.split()
-                newString=''
-                for i in tokens:
-                    if len(i)>1:                                 
-                    newString=newString+i+' '  
-                return newString
+        def summary_cleaner(text):
+            newString = re.sub('"','', text)
+            newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
+            newString = re.sub(r"'s\b","",newString)
+            newString = re.sub("[^a-zA-Z]", " ", newString)
+            newString = newString.lower()
+            tokens=newString.split()
+            newString=''
+            for i in tokens:
+                if len(i)>1:                                 
+                newString=newString+i+' '  
+            return newString
 
         #Call the above function
         cleaned_summary = []

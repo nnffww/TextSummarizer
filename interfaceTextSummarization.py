@@ -1,4 +1,4 @@
-import streamlit as st  
+ 
 import pandas as pd
 import numpy as np
 import io
@@ -19,12 +19,12 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense,LSTM,Bidirectional,Flatten,Dropout,BatchNormalization,Embedding,Input,TimeDistributed, Concatenate, Attention
 from tensorflow.keras.utils import plot_model
-#from keras.layers import Attention
+from keras.layers import Attention
 from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.callbacks import EarlyStopping
 import warnings
-#from attention import AttentionLayer
+from attention import AttentionLayer
 pd.set_option("display.max_colwidth", 200)
 warnings.filterwarnings("ignore")
 
@@ -316,26 +316,26 @@ if choice == 'Summarize':
 
         stop_condition = False
         decoded_sentence = ''
-            while not stop_condition:
-            output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
+        while not stop_condition:
+          output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
 
-            # Sample a token
-            sampled_token_index = np.argmax(output_tokens[0, -1, :])
-            sampled_token = reverse_target_word_index[sampled_token_index]
+          # Sample a token
+          sampled_token_index = np.argmax(output_tokens[0, -1, :])
+          sampled_token = reverse_target_word_index[sampled_token_index]
 
-            if(sampled_token!='eostok'):
-            decoded_sentence += ' '+sampled_token
+          if(sampled_token!='eostok'):
+              decoded_sentence += ' '+sampled_token
 
-                # Exit condition: either hit max length or find stop word.
-                if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
+              # Exit condition: either hit max length or find stop word.
+              if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
                 stop_condition = True
 
-            # Update the target sequence (of length 1).
-            target_seq = np.zeros((1,1))
-            target_seq[0, 0] = sampled_token_index
+          # Update the target sequence (of length 1).
+          target_seq = np.zeros((1,1))
+          target_seq[0, 0] = sampled_token_index
 
-            # Update internal states
-            e_h, e_c = h, c
+          # Update internal states
+          e_h, e_c = h, c
 
         return decoded_sentence
     
@@ -354,7 +354,7 @@ if choice == 'Summarize':
                 newString=newString+reverse_source_word_index[i]+' '
         return newString
     
-      print("Summarized:",decode_sequence(x_tr[i].reshape(1,max_len_text)))
+      print("Summarized:",decode_sequence(text.reshape(1,max_len_text)))
       print("\n")
     
     

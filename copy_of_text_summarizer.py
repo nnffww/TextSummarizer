@@ -91,8 +91,6 @@ if choice == 'Summarize':
 
                            "you're": "you are", "you've": "you have"}
 
-        display(df)
-
         import nltk
         nltk.download('stopwords')
 
@@ -143,8 +141,6 @@ if choice == 'Summarize':
 
         max_len_text=80 
         max_len_summary=10
-
-        st.write(df)
 
         from shutil import copyfile
         copyfile(src = "./attention/attention.py", dst = "./attention.py")

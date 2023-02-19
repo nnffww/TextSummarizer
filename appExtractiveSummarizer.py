@@ -694,7 +694,7 @@ if choice == 'Summarize':
          #st.write(len(X_train),len(Y_train))
          #st.write(len(X_val),len(Y_val))
          
-         train_x, test_x, train_y, test_y = train_test_split(Df['Title'], Df['Description'], test_size=0.3, random_state=20)
+         train_x, test_x, train_y, test_y = train_test_split(Df['Title'], Df['Text'], test_size=0.3, random_state=20)
          t_tokenizer = Tokenizer()
          t_tokenizer.fit_on_texts(list(train_x))
 

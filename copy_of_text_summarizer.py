@@ -317,18 +317,18 @@ if choice == 'Summarize':
         
         ## Making the seq2seq summary
         def seq2seqsummary(input_sequence):
-        newString=''
-        for i in input_sequence:
-            if((i!=0 and i!=target_word_index['sostok']) and i!=target_word_index['eostok']):
-            newString=newString+reverse_target_word_index[i]+' '
-        return newString
+            newString=''
+            for i in input_sequence:
+                if((i!=0 and i!=target_word_index['sostok']) and i!=target_word_index['eostok']):
+                newString=newString+reverse_target_word_index[i]+' '
+            return newString
 
         def seq2text(input_sequence):
-        newString=''
-        for i in input_sequence:
-            if(i!=0):
-            newString=newString+reverse_source_word_index[i]+' '
-        return newString
+            newString=''
+            for i in input_sequence:
+                if(i!=0):
+                newString=newString+reverse_source_word_index[i]+' '
+            return newString
 
         #st.write("Summarized:",decode_sequence(text))
    

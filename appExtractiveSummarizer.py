@@ -677,7 +677,7 @@ if choice == 'Summarize':
             return text
          
          st.success('Cleaned Text')
-         #Df['text']=Df['text'].apply(clean_text)
+         #Df['Text']=Df['Text'].apply(clean_text)
          Df['Text']=Df['Text'].apply(preprocess)
          st.dataframe(Df)
          

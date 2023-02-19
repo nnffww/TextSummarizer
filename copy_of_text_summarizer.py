@@ -91,7 +91,7 @@ if choice == 'Summarize':
 
                            "you're": "you are", "you've": "you have"}
 
-        st.write(df)
+        display(df)
 
         import nltk
         nltk.download('stopwords')

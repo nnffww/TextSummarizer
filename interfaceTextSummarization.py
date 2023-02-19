@@ -51,7 +51,7 @@ textColor = '#FFFFFF'
 # Default: "sans serif"
 font = "sans serif"
     
-if choice == 'News Article': 
+if choice == 'News Articles': 
   category = ["Business","Entertaiment","Politics","Sport", "Technology"]
   option = st.selectbox("Select News Article", category)
     

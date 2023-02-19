@@ -194,7 +194,7 @@ if choice == 'Summarize':
       pd.set_option("display.max_colwidth", 200)
       warnings.filterwarnings("ignore")
     
-      x_tr,x_val,y_tr,y_val=train_test_split(data['cleaned_text'],data['cleaned_summary'],test_size=0.1,random_state=0,shuffle=True) 
+      x_tr,x_val,y_tr,y_val=train_test_split(df['cleaned_text'],df['cleaned_summary'],test_size=0.1,random_state=0,shuffle=True) 
       
       #prepare a tokenizer for reviews on training data
 
@@ -317,18 +317,31 @@ if choice == 'Summarize':
         stop_condition = False
         decoded_sentence = ''
         while not stop_condition:
+<<<<<<< HEAD
           output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
+=======
+            output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
+>>>>>>> 75ed654f9f0b21e7449e46213916324c0fbe666e
 
           # Sample a token
           sampled_token_index = np.argmax(output_tokens[0, -1, :])
           sampled_token = reverse_target_word_index[sampled_token_index]
 
+<<<<<<< HEAD
           if(sampled_token!='eostok'):
               decoded_sentence += ' '+sampled_token
 
               # Exit condition: either hit max length or find stop word.
               if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
                 stop_condition = True
+=======
+            if(sampled_token!='eostok'):
+                decoded_sentence += ' '+sampled_token
+
+                # Exit condition: either hit max length or find stop word.
+                if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
+                    stop_condition = True
+>>>>>>> 75ed654f9f0b21e7449e46213916324c0fbe666e
 
           # Update the target sequence (of length 1).
           target_seq = np.zeros((1,1))
@@ -359,6 +372,7 @@ if choice == 'Summarize':
     
     
       st.dataframe(data)
+        
 
 
        

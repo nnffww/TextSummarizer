@@ -127,10 +127,7 @@ if choice == 'Summarize':
             return newString
 
         #Call the above function
-        cleaned_summary = []
-        for t in df['Summary']:
-            cleaned_summary.append(summary_cleaner(t))
-
+        
         df['cleaned_text']=cleaned_text
 
         max_len_text=80 

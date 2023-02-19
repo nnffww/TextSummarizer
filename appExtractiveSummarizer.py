@@ -400,9 +400,9 @@ if choice == 'Summarize':
          
          rm_stopwords_from_text(text)
          st.success('Cleaned Text')
-         st.write(text)
+         
          countOfWordsForCleaned = len(text.split())
-         st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
+         
          
          word_frequencies = {}
          for word in nltk.word_tokenize(text):
@@ -422,23 +422,20 @@ if choice == 'Summarize':
                      sentence_scores[sentence] = word_frequencies[word]
                   else:
                      sentence_scores[sentence] += word_frequencies[word]
-         st.success('Word Frequency')
-         word_frequencies
-         st.success('Sentence Score')
-         sentence_scores
          
-         st.success('Word Tokenize')
+         
+         
          sToken = nltk.word_tokenize(text)
          st.write(sToken)
          st.success('Stopwords')
-         st.write("List of stopwords:")
+         
          stopwords = nltk.corpus.stopwords.words('english')
-         st.write(stopwords[:10])
+         
          st.success('Summary')
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
-         st.write(str00)
+         )
          countOfWordsForSummary = len(str00.split())
-         st.write("Count of Words For Summary: ", countOfWordsForSummary)
+         st.write("Count of Words For Summarized: ", countOfWordsForSummary)
      
    uploaded_txt = st.file_uploader("Choose a file",type=["txt"])
    if uploaded_txt is not None:
@@ -750,6 +747,7 @@ if choice == 'Summarize':
          st.success('Details Summarized')
          # Boolean to resize the dataframe, stored as a session state variable
          st.checkbox("Use container width", value=False, key="use_container_width")
+         
          df = load_data()
          
          # Display the dataframe and allow the user to stretch the dataframe

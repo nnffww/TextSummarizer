@@ -120,7 +120,7 @@ contraction_map = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'c
 
                            "you're": "you are", "you've": "you have"}
 
-print(df)
+display(df)
 
 import nltk
 nltk.download('stopwords')
@@ -175,7 +175,7 @@ df['cleaned_summary'] = df['cleaned_summary'].apply(lambda x: 'sostok' + ' ' + x
 max_len_text=80 
 max_len_summary=10
 
-print(df)
+display(df)
 
 from shutil import copyfile
 copyfile(src = "./attention/attention.py", dst = "./attention.py")

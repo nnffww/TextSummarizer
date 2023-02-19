@@ -72,7 +72,7 @@ if choice == 'Summarize':
       st.dataframe(df)
    if st.button("Summarize"):
 
-contraction_map = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
+   contraction_map = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 
                            "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
 
@@ -118,13 +118,13 @@ contraction_map = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'c
 
                            "you're": "you are", "you've": "you have"}
 
-display(df)
+   display(df)
 
-import nltk
-nltk.download('stopwords')
+   import nltk
+   nltk.download('stopwords')
 
-stop_words = set(stopwords.words('english')) 
-def text_cleaner(text):
+   stop_words = set(stopwords.words('english')) 
+   def text_cleaner(text):
     newString = text.lower()
     newString = re.sub(r'\([^)]*\)', '', newString)
     newString = re.sub('"','', newString)

@@ -578,21 +578,17 @@ if choice == 'Summarize':
       
       if st.button('Summarize file'):
          st.info("Results")
-         original1 = Df['Description'][0]
-         original2 = Df['Description'][1]
-         original3 = Df['Description'][2]
-         original4 = Df['Description'][3]
-         original5 = Df['Description'][4]
-         original6 = Df['Description'][5]
-         original7 = Df['Description'][6]
-         original8 = Df['Description'][7]
-         original9 = Df['Description'][8]
-         original10 = Df['Description'][9]
-         original11 = Df['Description'][10]
-         original12 = Df['Description'][11]
-         original13 = Df['Description'][12]
-         original14 = Df['Description'][13]
-         original15 = Df['Description'][14]
+         original1 = Df['Text'][0]
+         original2 = Df['Text'][1]
+         original3 = Df['Text'][2]
+         original4 = Df['Text'][3]
+         original5 = Df['Text'][4]
+         original6 = Df['Text'][5]
+         original7 = Df['Text'][6]
+         original8 = Df['Text'][7]
+         original9 = Df['Text'][8]
+         original10 = Df['Text'][9]
+         
          contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 
                            "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
@@ -720,51 +716,42 @@ if choice == 'Summarize':
          s_max_features = total_count-count
          st.write("Summary Vocab: ", s_max_features)
          
-         countOfWords1 = len(Df['Description'][0].split())
-         countOfWords2 = len(Df['Description'][1].split())
-         countOfWords3 = len(Df['Description'][2].split())
-         countOfWords4 = len(Df['Description'][3].split())
-         countOfWords5 = len(Df['Description'][4].split())
-         countOfWords6 = len(Df['Description'][5].split())
-         countOfWords7 = len(Df['Description'][6].split())
-         countOfWords8 = len(Df['Description'][7].split())
-         countOfWords9 = len(Df['Description'][8].split())
-         countOfWords10 = len(Df['Description'][9].split())
-         countOfWords11 = len(Df['Description'][10].split())
-         countOfWords12 = len(Df['Description'][11].split())
-         countOfWords13 = len(Df['Description'][12].split())
-         countOfWords14 = len(Df['Description'][13].split())
-         countOfWords15 = len(Df['Description'][14].split())
+         countOfWords1 = len(Df['Text'][0].split())
+         countOfWords2 = len(Df['Text'][1].split())
+         countOfWords3 = len(Df['Text'][2].split())
+         countOfWords4 = len(Df['Text'][3].split())
+         countOfWords5 = len(Df['Text'][4].split())
+         countOfWords6 = len(Df['Text'][5].split())
+         countOfWords7 = len(Df['Text'][6].split())
+         countOfWords8 = len(Df['Text'][7].split())
+         countOfWords9 = len(Df['Text'][8].split())
+         countOfWords10 = len(Df['Text'][9].split())
          
-         Df['Count of Words'] = [countOfWords1, countOfWords2, countOfWords3, countOfWords4, countOfWords5, countOfWords6, countOfWords7, countOfWords8, countOfWords9, countOfWords10, countOfWords11, countOfWords12, countOfWords13, countOfWords14, countOfWords15]
+         Df['Count of Words'] = [countOfWords1, countOfWords2, countOfWords3, countOfWords4, countOfWords5, countOfWords6, countOfWords7, countOfWords8, countOfWords9, countOfWords10]
          st.dataframe(Df)
          
-         str1 = textwrap.shorten(Df['Description'][0], width=1500, placeholder='.')
-         str2 = textwrap.shorten(Df['Description'][1], width=1500, placeholder='.')
-         str3 = textwrap.shorten(Df['Description'][2], width=1500, placeholder='.')
-         str4 = textwrap.shorten(Df['Description'][3], width=1500, placeholder='.')
-         str5 = textwrap.shorten(Df['Description'][4], width=1500, placeholder='.')
-         str6 = textwrap.shorten(Df['Description'][5], width=1500, placeholder='.')
-         str7 = textwrap.shorten(Df['Description'][6], width=1500, placeholder='.')
-         str8 = textwrap.shorten(Df['Description'][7], width=1500, placeholder='.')
-         str9 = textwrap.shorten(Df['Description'][8], width=1500, placeholder='.')
-         str10 = textwrap.shorten(Df['Description'][9], width=1500, placeholder='.')
-         str11 = textwrap.shorten(Df['Description'][10], width=1500, placeholder='.')
-         str12 = textwrap.shorten(Df['Description'][11], width=1500, placeholder='.')
-         str13 = textwrap.shorten(Df['Description'][12], width=1500, placeholder='.')
-         str14 = textwrap.shorten(Df['Description'][13], width=1500, placeholder='.')
-         str15 = textwrap.shorten(Df['Description'][14], width=1500, placeholder='.')
+         str1 = textwrap.shorten(Df['Text'][0], width=1500, placeholder='.')
+         str2 = textwrap.shorten(Df['Text'][1], width=1500, placeholder='.')
+         str3 = textwrap.shorten(Df['Text'][2], width=1500, placeholder='.')
+         str4 = textwrap.shorten(Df['Text'][3], width=1500, placeholder='.')
+         str5 = textwrap.shorten(Df['Text'][4], width=1500, placeholder='.')
+         str6 = textwrap.shorten(Df['Text'][5], width=1500, placeholder='.')
+         str7 = textwrap.shorten(Df['Text'][6], width=1500, placeholder='.')
+         str8 = textwrap.shorten(Df['Text'][7], width=1500, placeholder='.')
+         str9 = textwrap.shorten(Df['Text'][8], width=1500, placeholder='.')
+         str10 = textwrap.shorten(Df['Text'][9], width=1500, placeholder='.')
+     
          
          # Cache the dataframe so it's only loaded once
          @st.experimental_memo
          def load_data():
             return pd.DataFrame(
                {
-                  "Title": [Df['Title'][0], Df['Title'][1], Df['Title'][2], Df['Title'][3], Df['Title'][4], Df['Title'][5], Df['Title'][6], Df['Title'][7], Df['Title'][8], Df['Title'][9], Df['Title'][10], Df['Title'][11], Df['Title'][12], Df['Title'][13], Df['Title'][14]],
-                  "Orignal Content" : [original1, original2, original3, original4, original5, original6, original7, original8, original9, original10, original11, original12, original13, original14, original15],
+                  "Title": [Df['Title'][0], Df['Title'][1], Df['Title'][2], Df['Title'][3], Df['Title'][4], Df['Title'][5], Df['Title'][6], Df['Title'][7], Df['Title'][8], Df['Title'][9]],
+                  "Orignal Content" : [original1, original2, original3, original4, original5, original6, original7, original8, original9, original10],
                   #"Original Content": [Df['Description'][0], Df['Description'][1], Df['Description'][2], Df['Description'][3], Df['Description'][4], Df['Description'][5], Df['Description'][6], Df['Description'][7], Df['Description'][8], Df['Description'][9], Df['Description'][10], Df['Description'][11], Df['Description'][12], Df['Description'][13], Df['Description'][14]],
-                  "Summary": [str1, str2, str3, str4, str5, str6, str7, str8, str9, str10, str11, str12, str13, str14, str15],
-                  "Count of Words": [len(str1.split()), len(str2.split()), len(str3.split()), len(str4.split()), len(str5.split()), len(str6.split()), len(str7.split()), len(str8.split()), len(str9.split()), len(str10.split()), len(str11.split()), len(str12.split()), len(str13.split()), len(str14.split()), len(str15.split())],
+                  "Summary": [str1, str2, str3, str4, str5, str6, str7, str8, str9, str10],
+                  "Count of Words": [len(str1.split()), len(str2.split()), len(str3.split()), len(str4.split()), len(str5.split()), len(str6.split()), len(str7.split()), len(str8.split()), len(str9.split()), len(str10.split())],
                }
             )
 

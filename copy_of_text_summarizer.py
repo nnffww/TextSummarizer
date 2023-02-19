@@ -116,22 +116,22 @@ if choice == 'Summarize':
             cleaned_text.append(text_cleaner(t))
 
             def summary_cleaner(text):
-            newString = re.sub('"','', text)
-            newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
-            newString = re.sub(r"'s\b","",newString)
-            newString = re.sub("[^a-zA-Z]", " ", newString)
-            newString = newString.lower()
-            tokens=newString.split()
-            newString=''
-            for i in tokens:
-                if len(i)>1:                                 
-                newString=newString+i+' '  
-            return newString
+                newString = re.sub('"','', text)
+                newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
+                newString = re.sub(r"'s\b","",newString)
+                newString = re.sub("[^a-zA-Z]", " ", newString)
+                newString = newString.lower()
+                tokens=newString.split()
+                newString=''
+                for i in tokens:
+                    if len(i)>1:                                 
+                    newString=newString+i+' '  
+                return newString
 
         #Call the above function
         cleaned_summary = []
         for t in df['Summary']:
-        cleaned_summary.append(summary_cleaner(t))
+            cleaned_summary.append(summary_cleaner(t))
 
         df['cleaned_text']=cleaned_text
         df['cleaned_summary']=cleaned_summary

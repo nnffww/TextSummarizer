@@ -329,7 +329,7 @@ if choice == 'Summarize':
                 decoded_sentence += ' ' + sampled_token
 
             # Exit condition: either hit max length or find stop word.
-            if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_summary_len - 1)):
+            if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary - 1)):
                 stop_condition = True
 
             # Update the target sequence (of length 1)

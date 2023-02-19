@@ -577,7 +577,7 @@ if choice == 'Summarize':
          st.text(s)
       
       if st.button('Summarize file'):
-         st.info("Results")
+         st.info("Summarize")
          original1 = Df['Text'][0]
          original2 = Df['Text'][1]
          original3 = Df['Text'][2]
@@ -747,7 +747,7 @@ if choice == 'Summarize':
                }
             )
 
-         st.success('Summarrized')
+         st.success('Details Summarized')
          # Boolean to resize the dataframe, stored as a session state variable
          st.checkbox("Use container width", value=False, key="use_container_width")
          df = load_data()

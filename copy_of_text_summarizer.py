@@ -91,6 +91,8 @@ if choice == 'Summarize':
 
                            "you're": "you are", "you've": "you have"}
 
+        st.write(df)
+
         import nltk
         nltk.download('stopwords')
 
@@ -127,14 +129,26 @@ if choice == 'Summarize':
             return newString
 
         #Call the above function
-        
+        cleaned_summary = []
+        for t in df['Summary']:
+            cleaned_summary.append(summary_cleaner(t))
+
         df['cleaned_text']=cleaned_text
+        df['cleaned_summary']=cleaned_summary
+        df['cleaned_summary'].replace('', np.nan, inplace=True)
+        df.dropna(axis=0,inplace=True)
+
+        # add sostok and eostok at the start and end of summary
+        df['cleaned_summary'] = df['cleaned_summary'].apply(lambda x: 'sostok' + ' ' + x + ' ' + 'eostok')
 
         max_len_text=80 
         max_len_summary=10
 
+        st.write(df)
+
         from shutil import copyfile
         copyfile(src = "./attention/attention.py", dst = "./attention.py")
+
 
         pd.set_option("display.max_colwidth", 200)
         warnings.filterwarnings("ignore")

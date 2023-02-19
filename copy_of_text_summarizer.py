@@ -226,71 +226,71 @@ if choice == 'Summarize':
     encoder_lstm2 = LSTM(latent_dim,return_sequences=True,return_state=True) 
     encoder_output2, state_h2, state_c2 = encoder_lstm2(encoder_output1) 
 
-   #Preparing LSTM layer 3
-   encoder_lstm3=LSTM(latent_dim, return_state=True, return_sequences=True) 
-   encoder_outputs, state_h, state_c= encoder_lstm3(encoder_output2) 
+    #Preparing LSTM layer 3
+    encoder_lstm3=LSTM(latent_dim, return_state=True, return_sequences=True) 
+    encoder_outputs, state_h, state_c= encoder_lstm3(encoder_output2) 
 
-   # Decoder layer 
-   decoder_inputs = Input(shape=(None,)) 
-   dec_emb_layer = Embedding(y_voc_size, latent_dim,trainable=True) 
-   dec_emb = dec_emb_layer(decoder_inputs) 
+    # Decoder layer 
+    decoder_inputs = Input(shape=(None,)) 
+    dec_emb_layer = Embedding(y_voc_size, latent_dim,trainable=True) 
+    dec_emb = dec_emb_layer(decoder_inputs) 
 
 
-   decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True) 
-   decoder_outputs,decoder_fwd_state, decoder_back_state = decoder_lstm(dec_emb,initial_state=[state_h, state_c]) 
+    decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True) 
+    decoder_outputs,decoder_fwd_state, decoder_back_state = decoder_lstm(dec_emb,initial_state=[state_h, state_c]) 
 
-   #Dense layer
-   # decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax')) 
-   #decoder_outputs = decoder_dense(decoder_concat_input)
+    #Dense layer
+    # decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax')) 
+    #decoder_outputs = decoder_dense(decoder_concat_input)
 
-   #Preparing the Attention Layer
-   attn_layer = AttentionLayer(name='attention_layer') 
-   attn_out, attn_states = attn_layer([encoder_outputs, decoder_outputs]) 
-   decoder_concat_input = Concatenate(axis=-1, name='concat_layer')([decoder_outputs, attn_out])\
+    #Preparing the Attention Layer
+    attn_layer = AttentionLayer(name='attention_layer') 
+    attn_out, attn_states = attn_layer([encoder_outputs, decoder_outputs]) 
+    decoder_concat_input = Concatenate(axis=-1, name='concat_layer')([decoder_outputs, attn_out])\
 
-   #Adding the dense layer
-   decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax')) 
-   decoder_outputs = decoder_dense(decoder_concat_input) 
+    #Adding the dense layer
+    decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax')) 
+    decoder_outputs = decoder_dense(decoder_concat_input) 
 
-   # Prepare the model
-   model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
+    # Prepare the model
+    model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
 
-   model.summary()
+    model.summary()
 
-   # Compiling the RNN model
-   model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
+    # Compiling the RNN model
+    model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
 
-   reverse_target_word_index=y_tokenizer.index_word
-   reverse_source_word_index=x_tokenizer.index_word
-   target_word_index=y_tokenizer.word_index
+    reverse_target_word_index=y_tokenizer.index_word
+    reverse_source_word_index=x_tokenizer.index_word
+    target_word_index=y_tokenizer.word_index
 
-   # # Inference Models
+    # # Inference Models
 
-   # Encode the input sequence to get the feature vector
-   encoder_model = Model(inputs=encoder_inputs,outputs=[encoder_outputs, state_h, state_c])
+    # Encode the input sequence to get the feature vector
+    encoder_model = Model(inputs=encoder_inputs,outputs=[encoder_outputs, state_h, state_c])
 
-   # Decoder setup
-   # Below tensors will hold the states of the previous time step
-   decoder_state_input_h = Input(shape=(latent_dim,))
-   decoder_state_input_c = Input(shape=(latent_dim,))
-   decoder_hidden_state_input = Input(shape=(max_len_text,latent_dim))
+    # Decoder setup
+    # Below tensors will hold the states of the previous time step
+    decoder_state_input_h = Input(shape=(latent_dim,))
+    decoder_state_input_c = Input(shape=(latent_dim,))
+    decoder_hidden_state_input = Input(shape=(max_len_text,latent_dim))
 
-   # Get the embeddings of the decoder sequence
-   dec_emb2= dec_emb_layer(decoder_inputs) 
-   # To predict the next word in the sequence, set the initial states to the states from the previous time step
-   decoder_outputs2, state_h2, state_c2 = decoder_lstm(dec_emb2, initial_state=[decoder_state_input_h, decoder_state_input_c])
+    # Get the embeddings of the decoder sequence
+    dec_emb2= dec_emb_layer(decoder_inputs) 
+    # To predict the next word in the sequence, set the initial states to the states from the previous time step
+    decoder_outputs2, state_h2, state_c2 = decoder_lstm(dec_emb2, initial_state=[decoder_state_input_h, decoder_state_input_c])
 
-   #attention inference
-   attn_out_inf, attn_states_inf = attn_layer([decoder_hidden_state_input, decoder_outputs2])
-   decoder_inf_concat = Concatenate(axis=-1, name='concat')([decoder_outputs2, attn_out_inf])
+    #attention inference
+    attn_out_inf, attn_states_inf = attn_layer([decoder_hidden_state_input, decoder_outputs2])
+    decoder_inf_concat = Concatenate(axis=-1, name='concat')([decoder_outputs2, attn_out_inf])
 
-   # A dense softmax layer to generate prob dist. over the target vocabulary
-   decoder_outputs2 = decoder_dense(decoder_inf_concat) 
+    # A dense softmax layer to generate prob dist. over the target vocabulary
+    decoder_outputs2 = decoder_dense(decoder_inf_concat) 
 
-   # Final decoder model
-   decoder_model = Model(
-    [decoder_inputs] + [decoder_hidden_state_input,decoder_state_input_h, decoder_state_input_c],
-    [decoder_outputs2] + [state_h2, state_c2])
+    # Final decoder model
+    decoder_model = Model(
+      [decoder_inputs] + [decoder_hidden_state_input,decoder_state_input_h, decoder_state_input_c],
+      [decoder_outputs2] + [state_h2, state_c2])
 
 def decode_sequence(input_sequence):
     # Encode the input as state vectors.

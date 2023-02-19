@@ -194,7 +194,7 @@ if choice == 'Summarize':
       pd.set_option("display.max_colwidth", 200)
       warnings.filterwarnings("ignore")
     
-      x_tr,x_val,y_tr,y_val=train_test_split(data['cleaned_text'],data['cleaned_summary'],test_size=0.1,random_state=0,shuffle=True) 
+      x_tr,x_val,y_tr,y_val=train_test_split(df['cleaned_text'],df['cleaned_summary'],test_size=0.1,random_state=0,shuffle=True) 
       
       #prepare a tokenizer for reviews on training data
 

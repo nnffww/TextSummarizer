@@ -400,9 +400,9 @@ if choice == 'Summarize':
          
          rm_stopwords_from_text(text)
          st.success('Cleaned Text')
-         
+         st.write(text)
          countOfWordsForCleaned = len(text.split())
-         
+         st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
          
          word_frequencies = {}
          for word in nltk.word_tokenize(text):
@@ -423,17 +423,21 @@ if choice == 'Summarize':
                   else:
                      sentence_scores[sentence] += word_frequencies[word]
          
+         st.success('Word Frequency')
+         word_frequencies
+         st.success('Sentence Score')
+         sentence_scores
          
-         
+         st.success('Word Tokenize')
          sToken = nltk.word_tokenize(text)
          st.write(sToken)
          st.success('Stopwords')
-         
+         st.write("List of stopwords:")
          stopwords = nltk.corpus.stopwords.words('english')
-         
+         st.write(stopwords[:10])
          st.success('Summary')
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
-         
+         st.write(str00)
          countOfWordsForSummary = len(str00.split())
          st.write("Count of Words For Summarized: ", countOfWordsForSummary)
      

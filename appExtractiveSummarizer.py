@@ -38,13 +38,13 @@ from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")
-st.markdown("<h1 style='text-align: center; color: white;'>ONLINE ENGLISH FICTION BOOK REVIEWS EXTRACTIVE TEXT SUMMARIZATION SYSTEM VIA MACHINE LEARNING APPROACHES</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: white;'>EXTRACTIVE BASED TEXT SUMMARIZATION USING SENTIMENT ANALYSIS</h1>", unsafe_allow_html=True)
 st.markdown("<hr size='5' width='100%;'>", unsafe_allow_html=True)
-activities = ["💡 Introduction","📚 Fiction Books","📝 Summarize"]
-choice = st.sidebar.selectbox("💻 Select Activity", activities)
+activities = ["Introduction","News Article","Summarize"]
+choice = st.sidebar.selectbox("Select Activity", activities)
 
-if choice == '💡 Introduction':
-   st.markdown("<h2 style='text-align: center; color: white;'>💡 INTRODUCTION 💡</h2>", unsafe_allow_html=True)
+if choice == 'Introduction':
+   st.markdown("<h2 style='text-align: center; color: white;'>INTRODUCTION</h2>", unsafe_allow_html=True)
    st.markdown("<p style='text-align: center; color: white;'>Books are becoming increasingly popular among readers who love to read books especially English books. The passage of time has changed the source of books that can be read online in the form of electronic format where users only need to use a mobile device via the Internet. Books consist of various types of genres that are categorized into two namely fiction and non-fiction. Fiction books refer to literary plots, background, and characters designed and created from the writer’s imagination. Based on term of book sales in Malaysia, fiction books are more popular among readers than non-fiction book. Readers usually make an online book review after reading a whole book that contains a long story divided into several chapters that give structure and readability to the book by summarizing it manually to describe the contents.</p>", unsafe_allow_html=True)
    image = Image.open('summarization.png')
    col1, col2, col3 = st.columns([12,20,10])
@@ -57,17 +57,20 @@ if choice == '💡 Introduction':
    st.markdown("<p style='text-align: center; color: white;'>\nThe extractive text summarization system creates summary by identifying, extracting the sentences, and subsequently combining the most important sentences in an online book to generate in form of a summary. The extraction summary method is the selection of sentences or phrases that have the highest score from the original text and organize them into a new, shorter text without changing the source text.</p>", unsafe_allow_html=True)
    st.markdown("<p style='text-align: center; color: white;'>\nFor extractive text summarization, the main sentence and the object are extracted without modifying the object itself, the strategy of concatenating on extracting summary from a given corpus. The system will select the most important sentences in the online book then combine them to form a summary extractively through machine learning with Natural Language Processing (NLP). The Repetitive Neural Network (RNN) is the model that will be used to generate the summary. Recurrent Neural Network (RNN) is the most common architectures for Neural Text Summarization. The approach is based on the idea of identifying a set of sentences which collectively give the highest ROUGE with respect to the gold summary.</p>", unsafe_allow_html=True)
     
-if choice == '📚 Fiction Books':
-   st.markdown("<h2 style='text-align: center; color: white;'>📚 FICTIONS BOOKS 📚</h2>", unsafe_allow_html=True)
-   category = ["Story","Harry Potter"]
-   url = 'https://raw.githubusercontent.com/Khusnina/streamlit-example/master/listBook.csv'
-   df = pd.read_csv(url,encoding="latin-1")
-   st.write("List of Fiction Book")
-   st.write(df.head(20))
-   st.download_button("Download CSV",
-                         df.to_csv(),
-                         file_name = 'listBook.csv',
-                         mime = 'text/csv')
+if choice == 'News Article':
+   st.markdown("<h2 style='text-align: center; color: white;'>News Article 📚</h2>", unsafe_allow_html=True)
+   category = ["Business","Entertaiment","Politics","Sport", "Technology"]
+   option = st.selectbox("Select News Article", category)
+    
+   if option == 'Business':
+      url = 'https://raw.githubusercontent.com/faraawaheeda/streamlitProject/main/business%20data.csv?token=GHSAT0AAAAAAB44S4MWPQE3QEME6JT4YSV4Y6Q4XLQ'
+      df = pd.read_csv(url,encoding="latin-1")
+      st.write(df.head(20))
+      st.download_button("Download",
+                        df.to_csv(),
+                        file_name = 'BusinessArticle.csv',
+                        mime = 'text/csv')
+  
    st.write("Shape")
    st.write(df.shape)
    st.write("Info")
@@ -76,10 +79,10 @@ if choice == '📚 Fiction Books':
    s = buffer.getvalue()
    st.text(s)
   
-   clean = st.radio("Cleaning the data",('Select', 'Process', 'No Process')) 
+   clean = st.radio("Summarize the data",('Summarize', 'Cancel')) 
    if clean == 'Select':
       st.info('Select one either to process or not.', icon="ℹ️")
-   if clean == 'Process':
+   if clean == 'Summarize':
       st.info('You want to process the list.', icon="ℹ️")
       
       contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
@@ -229,7 +232,7 @@ if choice == '📚 Fiction Books':
                            "you're": "you are", "you've": "you have", "chapter": "", "page" : "", "ab" : "", "j" : "", "k" : "", "r" : "", "w" : "",}
          
          st.text(contraction_mapping)
-   if clean == 'No Process':
+   if clean == 'Cancel':
       st.info('You do not want to process the list.', icon="ℹ️")
    option = st.selectbox('Select Category', category)
    if option == 'Story':

@@ -331,8 +331,8 @@ if choice == 'News Article':
          content15 = df['Description'][14]
          st.download_button('Download', content15)
 
-if choice == '📝 Summarize':
-   st.markdown("<h2 style='text-align: center; color: white;'>📝 EXTRACTIVE TEXT SUMMARIZER 📝</h2>", unsafe_allow_html=True)
+if choice == 'Summarize':
+   st.markdown("<h2 style='text-align: center; color: white;'>TEXT SUMMARIZER</h2>", unsafe_allow_html=True)
    with st.form(key = 'nlpForm'):
       text = st.text_area("Original Content","Enter text here")
       submitted = st.form_submit_button("Summarize")

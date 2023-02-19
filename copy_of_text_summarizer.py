@@ -187,44 +187,44 @@ if choice == 'Summarize':
     x_tokenizer = Tokenizer()
     x_tokenizer.fit_on_texts(list(x_tr))
 
-   #convert text sequences into integer sequences
-   x_tr    =   x_tokenizer.texts_to_sequences(x_tr) 
-   x_val   =   x_tokenizer.texts_to_sequences(x_val)
+    #convert text sequences into integer sequences
+    x_tr    =   x_tokenizer.texts_to_sequences(x_tr) 
+    x_val   =   x_tokenizer.texts_to_sequences(x_val)
 
-   #padding zero upto maximum length
-   x_tr    =   pad_sequences(x_tr,  maxlen=max_len_text, padding='post') 
-   x_val   =   pad_sequences(x_val, maxlen=max_len_text, padding='post')
+    #padding zero upto maximum length
+    x_tr    =   pad_sequences(x_tr,  maxlen=max_len_text, padding='post') 
+    x_val   =   pad_sequences(x_val, maxlen=max_len_text, padding='post')
 
-   x_voc_size   =  len(x_tokenizer.word_index) +1
+    x_voc_size   =  len(x_tokenizer.word_index) +1
 
-   y_tokenizer = Tokenizer()
-   y_tokenizer.fit_on_texts(list(y_tr))
+    y_tokenizer = Tokenizer()
+    y_tokenizer.fit_on_texts(list(y_tr))
 
-   #convert summary sequences into integer sequences
-   y_tr    =   y_tokenizer.texts_to_sequences(y_tr) 
-   y_val   =   y_tokenizer.texts_to_sequences(y_val) 
+    #convert summary sequences into integer sequences
+    y_tr    =   y_tokenizer.texts_to_sequences(y_tr) 
+    y_val   =   y_tokenizer.texts_to_sequences(y_val) 
 
-   #padding zero upto maximum length
-   y_tr    =   pad_sequences(y_tr, maxlen=max_len_summary, padding='post')
-   y_val   =   pad_sequences(y_val, maxlen=max_len_summary, padding='post')
+    #padding zero upto maximum length
+    y_tr    =   pad_sequences(y_tr, maxlen=max_len_summary, padding='post')
+    y_val   =   pad_sequences(y_val, maxlen=max_len_summary, padding='post')
 
-   y_voc_size  =   len(y_tokenizer.word_index) +1
+    y_voc_size  =   len(y_tokenizer.word_index) +1
+ 
+    from keras import backend as K 
+    K.clear_session() 
+    latent_dim = 500 
+ 
+    # Encoder 
+    encoder_inputs = Input(shape=(max_len_text,)) 
+    enc_emb = Embedding(x_voc_size, latent_dim,trainable=True)(encoder_inputs) 
 
-   from keras import backend as K 
-   K.clear_session() 
-   latent_dim = 500 
+    #Preparing LSTM layer 1 
+    encoder_lstm1 = LSTM(latent_dim,return_sequences=True,return_state=True) 
+    encoder_output1, state_h1, state_c1 = encoder_lstm1(enc_emb) 
 
-   # Encoder 
-   encoder_inputs = Input(shape=(max_len_text,)) 
-   enc_emb = Embedding(x_voc_size, latent_dim,trainable=True)(encoder_inputs) 
-
-   #Preparing LSTM layer 1 
-   encoder_lstm1 = LSTM(latent_dim,return_sequences=True,return_state=True) 
-   encoder_output1, state_h1, state_c1 = encoder_lstm1(enc_emb) 
-
-   #Preparing LSTM layer 2
-   encoder_lstm2 = LSTM(latent_dim,return_sequences=True,return_state=True) 
-   encoder_output2, state_h2, state_c2 = encoder_lstm2(encoder_output1) 
+    #Preparing LSTM layer 2
+    encoder_lstm2 = LSTM(latent_dim,return_sequences=True,return_state=True) 
+    encoder_output2, state_h2, state_c2 = encoder_lstm2(encoder_output1) 
 
    #Preparing LSTM layer 3
    encoder_lstm3=LSTM(latent_dim, return_state=True, return_sequences=True) 

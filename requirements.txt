@@ -5,3 +5,11 @@ nltk
 tensorflow
 requests
 scikit-learn
+unidecode
+Image
+spacy
+contractions
+networkx
+neattext
+matplotlib
+seaborn

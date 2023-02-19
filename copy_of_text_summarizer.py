@@ -125,7 +125,7 @@ if choice == 'Summarize':
             newString=''
             for i in tokens:
                 if len(i)>1:                                 
-                newString=newString+i+' '  
+                    newString=newString+i+' '  
             return newString
 
         #Call the above function

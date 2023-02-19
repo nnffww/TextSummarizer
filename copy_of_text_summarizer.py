@@ -117,78 +117,65 @@ if choice == 'Summarize':
 
                            "you're": "you are", "you've": "you have"}
 
-   display(df)
+    display(df)
 
-   import nltk
-   nltk.download('stopwords')
+    import nltk
+    nltk.download('stopwords')
 
-   stop_words = set(stopwords.words('english')) 
-   def text_cleaner(text):
-    newString = text.lower()
-    newString = re.sub(r'\([^)]*\)', '', newString)
-    newString = re.sub('"','', newString)
-    newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
-    newString = re.sub(r"'s\b","",newString)
-    newString = re.sub("[^a-zA-Z]", " ", newString) 
-    tokens = [w for w in newString.split() if not w in stop_words]
-    long_words=[]
-    for i in tokens:
+    stop_words = set(stopwords.words('english')) 
+    def text_cleaner(text):
+      newString = text.lower()
+      newString = re.sub(r'\([^)]*\)', '', newString)
+      newString = re.sub('"','', newString)
+      newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
+      newString = re.sub(r"'s\b","",newString)
+      newString = re.sub("[^a-zA-Z]", " ", newString) 
+      tokens = [w for w in newString.split() if not w in stop_words]
+      long_words=[]
+      for i in tokens:
         if len(i)>=3:                  #removing short word
-            long_words.append(i)   
-    return (" ".join(long_words)).strip()
+          long_words.append(i)   
+      return (" ".join(long_words)).strip()
 
-cleaned_text = []
-for t in df['Text']:
-    cleaned_text.append(text_cleaner(t))
+    cleaned_text = []
+    for t in df['Text']:
+      cleaned_text.append(text_cleaner(t))
 
-import re
-
-def summary_cleaner(text):
-    newString = re.sub('"','', text)
-    newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
-    newString = re.sub(r"'s\b","",newString)
-    newString = re.sub("[^a-zA-Z]", " ", newString)
-    newString = newString.lower()
-    tokens=newString.split()
-    newString=''
-    for i in tokens:
+    def summary_cleaner(text):
+      newString = re.sub('"','', text)
+      newString = ' '.join([contraction_map[t] if t in contraction_map else t for t in newString.split(" ")])    
+      newString = re.sub(r"'s\b","",newString)
+      newString = re.sub("[^a-zA-Z]", " ", newString)
+      newString = newString.lower()
+      tokens=newString.split()
+      newString=''
+      for i in tokens:
         if len(i)>1:                                 
-            newString=newString+i+' '  
-    return newString
+          newString=newString+i+' '  
+      return newString
 
-#Call the above function
-cleaned_summary = []
-for t in df['Summary']:
-    cleaned_summary.append(summary_cleaner(t))
+    #Call the above function
+    cleaned_summary = []
+      for t in df['Summary']:
+        cleaned_summary.append(summary_cleaner(t))
 
-df['cleaned_text']=cleaned_text
-df['cleaned_summary']=cleaned_summary
-df['cleaned_summary'].replace('', np.nan, inplace=True)
-df.dropna(axis=0,inplace=True)
+    df['cleaned_text']=cleaned_text
+    df['cleaned_summary']=cleaned_summary
+    df['cleaned_summary'].replace('', np.nan, inplace=True)
+    df.dropna(axis=0,inplace=True)
 
-# add sostok and eostok at the start and end of summary
-df['cleaned_summary'] = df['cleaned_summary'].apply(lambda x: 'sostok' + ' ' + x + ' ' + 'eostok')
+    # add sostok and eostok at the start and end of summary
+    df['cleaned_summary'] = df['cleaned_summary'].apply(lambda x: 'sostok' + ' ' + x + ' ' + 'eostok')
 
-max_len_text=80 
-max_len_summary=10
+    max_len_text=80 
+    max_len_summary=10
 
-display(df)
+    display(df)
 
-from shutil import copyfile
-copyfile(src = "./attention/attention.py", dst = "./attention.py")
+    from shutil import copyfile
+    copyfile(src = "./attention/attention.py", dst = "./attention.py")
 
-import numpy as np  
-import pandas as pd 
-import re           
-from bs4 import BeautifulSoup 
-from keras.preprocessing.text import Tokenizer 
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from nltk.corpus import stopwords   
-from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, TimeDistributed, Bidirectional
-from tensorflow.keras.models import Model
-from tensorflow.keras.callbacks import EarlyStopping
-import warnings
-from attention import AttentionLayer
+
 pd.set_option("display.max_colwidth", 200)
 warnings.filterwarnings("ignore")
 

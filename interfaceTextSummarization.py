@@ -187,85 +187,84 @@ if choice == 'Summarize':
 
       max_len_text=80 
       max_len_summary=10
-
+        
       from shutil import copyfile
-
-      copyfile(src="./attention/attention.py", dst="./attention.py")
-
-      from sklearn.model_selection import train_test_split
-
-      x_tr, x_val, y_tr, y_val = train_test_split(data['cleaned_text'], data['cleaned_summary'], test_size=0.1,
-                                                  random_state=0, shuffle=True)
-
-      # prepare a tokenizer for reviews on training data
+      copyfile(src = "./attention/attention.py", dst = "./attention.py")
+      
+      pd.set_option("display.max_colwidth", 200)
+      warnings.filterwarnings("ignore")
+    
+      x_tr,x_val,y_tr,y_val=train_test_split(data['cleaned_text'],data['cleaned_summary'],test_size=0.1,random_state=0,shuffle=True) 
+      
+      #prepare a tokenizer for reviews on training data
 
       x_tokenizer = Tokenizer()
       x_tokenizer.fit_on_texts(list(x_tr))
 
-      # convert text sequences into integer sequences
-      x_tr = x_tokenizer.texts_to_sequences(x_tr)
-      x_val = x_tokenizer.texts_to_sequences(x_val)
+      #convert text sequences into integer sequences
+      x_tr    =   x_tokenizer.texts_to_sequences(x_tr) 
+      x_val   =   x_tokenizer.texts_to_sequences(x_val)
 
-      # padding zero upto maximum length
-      x_tr = pad_sequences(x_tr, maxlen=max_len_text, padding='post')
-      x_val = pad_sequences(x_val, maxlen=max_len_text, padding='post')
+      #padding zero upto maximum length
+      x_tr    =   pad_sequences(x_tr,  maxlen=max_len_text, padding='post') 
+      x_val   =   pad_sequences(x_val, maxlen=max_len_text, padding='post')
 
-      x_voc_size = len(x_tokenizer.word_index) + 1
-
+      x_voc_size   =  len(x_tokenizer.word_index) +1
+      
       y_tokenizer = Tokenizer()
       y_tokenizer.fit_on_texts(list(y_tr))
 
-      # convert summary sequences into integer sequences
-      y_tr = y_tokenizer.texts_to_sequences(y_tr)
-      y_val = y_tokenizer.texts_to_sequences(y_val)
+      #convert summary sequences into integer sequences
+      y_tr    =   y_tokenizer.texts_to_sequences(y_tr) 
+      y_val   =   y_tokenizer.texts_to_sequences(y_val) 
 
-      # padding zero upto maximum length
-      y_tr = pad_sequences(y_tr, maxlen=max_len_summary, padding='post')
-      y_val = pad_sequences(y_val, maxlen=max_len_summary, padding='post')
+      #padding zero upto maximum length
+      y_tr    =   pad_sequences(y_tr, maxlen=max_len_summary, padding='post')
+      y_val   =   pad_sequences(y_val, maxlen=max_len_summary, padding='post')
 
-      y_voc_size = len(y_tokenizer.word_index) + 1
+      y_voc_size  =   len(y_tokenizer.word_index) +1
+    
+      from keras import backend as K 
+      K.clear_session() 
+      latent_dim = 500 
 
-      from keras import backend as K
+      # Encoder 
+      encoder_inputs = Input(shape=(max_len_text,)) 
+      enc_emb = Embedding(x_voc_size, latent_dim,trainable=True)(encoder_inputs) 
 
-      K.clear_session()
-      latent_dim = 500
+      #Preparing LSTM layer 1 
+      encoder_lstm1 = LSTM(latent_dim,return_sequences=True,return_state=True) 
+      encoder_output1, state_h1, state_c1 = encoder_lstm1(enc_emb) 
 
-      # Encoder
-      encoder_inputs = Input(shape=(max_len_text,))
-      enc_emb = Embedding(x_voc_size, latent_dim, trainable=True)(encoder_inputs)
+      #Preparing LSTM layer 2
+      encoder_lstm2 = LSTM(latent_dim,return_sequences=True,return_state=True) 
+      encoder_output2, state_h2, state_c2 = encoder_lstm2(encoder_output1) 
 
-      # Preparing LSTM layer 1
-      encoder_lstm1 = LSTM(latent_dim, return_sequences=True, return_state=True)
-      encoder_output1, state_h1, state_c1 = encoder_lstm1(enc_emb)
+      #Preparing LSTM layer 3
+      encoder_lstm3=LSTM(latent_dim, return_state=True, return_sequences=True) 
+      encoder_outputs, state_h, state_c= encoder_lstm3(encoder_output2) 
 
-      # Preparing LSTM layer 2
-      encoder_lstm2 = LSTM(latent_dim, return_sequences=True, return_state=True)
-      encoder_output2, state_h2, state_c2 = encoder_lstm2(encoder_output1)
+      # Decoder layer 
+      decoder_inputs = Input(shape=(None,)) 
+      dec_emb_layer = Embedding(y_voc_size, latent_dim,trainable=True) 
+      dec_emb = dec_emb_layer(decoder_inputs) 
 
-      # Preparing LSTM layer 3
-      encoder_lstm3 = LSTM(latent_dim, return_state=True, return_sequences=True)
-      encoder_outputs, state_h, state_c = encoder_lstm3(encoder_output2)
 
-      # Decoder layer
-      decoder_inputs = Input(shape=(None,))
-      dec_emb_layer = Embedding(y_voc_size, latent_dim, trainable=True)
-      dec_emb = dec_emb_layer(decoder_inputs)
+      decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True) 
+      decoder_outputs,decoder_fwd_state, decoder_back_state = decoder_lstm(dec_emb,initial_state=[state_h, state_c]) 
 
-      decoder_lstm = LSTM(latent_dim, return_sequences=True, return_state=True)
-      decoder_outputs, decoder_fwd_state, decoder_back_state = decoder_lstm(dec_emb, initial_state=[state_h, state_c])
+      #Dense layer
+      # decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax')) 
+      #decoder_outputs = decoder_dense(decoder_concat_input) 
+      
+      #Preparing the Attention Layer
+      attn_layer = AttentionLayer(name='attention_layer') 
+      attn_out, attn_states = attn_layer([encoder_outputs, decoder_outputs]) 
+      decoder_concat_input = Concatenate(axis=-1, name='concat_layer')([decoder_outputs, attn_out])\
 
-      # Dense layer
-      # decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax'))
-      # decoder_outputs = decoder_dense(decoder_concat_input)
-
-      # Preparing the Attention Layer
-      attn_layer = AttentionLayer(name='attention_layer')
-      attn_out, attn_states = attn_layer([encoder_outputs, decoder_outputs])
-      decoder_concat_input = Concatenate(axis=-1, name='concat_layer')([decoder_outputs, attn_out]) \
- \
-          # Adding the dense layer
-      decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax'))
-      decoder_outputs = decoder_dense(decoder_concat_input)
+      #Adding the dense layer
+      decoder_dense = TimeDistributed(Dense(y_voc_size, activation='softmax')) 
+      decoder_outputs = decoder_dense(decoder_concat_input) 
 
       # Prepare the model
       model = Model([encoder_inputs, decoder_inputs], decoder_outputs)
@@ -274,94 +273,91 @@ if choice == 'Summarize':
 
       # Compiling the RNN model
       model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy')
-
-      reverse_target_word_index = y_tokenizer.index_word
-      reverse_source_word_index = x_tokenizer.index_word
-      target_word_index = y_tokenizer.word_index
-
+      
+      reverse_target_word_index=y_tokenizer.index_word
+      reverse_source_word_index=x_tokenizer.index_word
+      target_word_index=y_tokenizer.word_index
+        
       # # Inference Models
 
       # Encode the input sequence to get the feature vector
-      encoder_model = Model(inputs=encoder_inputs, outputs=[encoder_outputs, state_h, state_c])
+      encoder_model = Model(inputs=encoder_inputs,outputs=[encoder_outputs, state_h, state_c])
 
       # Decoder setup
       # Below tensors will hold the states of the previous time step
       decoder_state_input_h = Input(shape=(latent_dim,))
       decoder_state_input_c = Input(shape=(latent_dim,))
-      decoder_hidden_state_input = Input(shape=(max_len_text, latent_dim))
+      decoder_hidden_state_input = Input(shape=(max_len_text,latent_dim))
 
       # Get the embeddings of the decoder sequence
-      dec_emb2 = dec_emb_layer(decoder_inputs)
+      dec_emb2= dec_emb_layer(decoder_inputs) 
       # To predict the next word in the sequence, set the initial states to the states from the previous time step
-      decoder_outputs2, state_h2, state_c2 = decoder_lstm(dec_emb2,
-                                                          initial_state=[decoder_state_input_h, decoder_state_input_c])
+      decoder_outputs2, state_h2, state_c2 = decoder_lstm(dec_emb2, initial_state=[decoder_state_input_h, decoder_state_input_c])
 
-      # attention inference
+      #attention inference
       attn_out_inf, attn_states_inf = attn_layer([decoder_hidden_state_input, decoder_outputs2])
       decoder_inf_concat = Concatenate(axis=-1, name='concat')([decoder_outputs2, attn_out_inf])
 
       # A dense softmax layer to generate prob dist. over the target vocabulary
-      decoder_outputs2 = decoder_dense(decoder_inf_concat)
+      decoder_outputs2 = decoder_dense(decoder_inf_concat) 
 
       # Final decoder model
-      decoder_model = Model(
-          [decoder_inputs] + [decoder_hidden_state_input, decoder_state_input_h, decoder_state_input_c],
-          [decoder_outputs2] + [state_h2, state_c2])
-
-
+      decoder_model = Model([decoder_inputs] + [decoder_hidden_state_input,decoder_state_input_h, decoder_state_input_c],[decoder_outputs2] + [state_h2, state_c2])
+       
       def decode_sequence(input_sequence):
-          # Encode the input as state vectors.
-          e_out, e_h, e_c = encoder_model.predict(input_sequence)
+        # Encode the input as state vectors.
+        e_out, e_h, e_c = encoder_model.predict(input_sequence)
 
-          # Generate empty target sequence of length 1.
-          target_seq = np.zeros((1, 1))
+        # Generate empty target sequence of length 1.
+        target_seq = np.zeros((1,1))
 
-          # Chose the 'start' word as the first word of the target sequence
-          target_seq[0, 0] = target_word_index['sostok']
+        # Chose the 'start' word as the first word of the target sequence
+        target_seq[0, 0] = target_word_index['sostok']
 
-          stop_condition = False
-          decoded_sentence = ''
-          while not stop_condition:
-              output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
+        stop_condition = False
+        decoded_sentence = ''
+            while not stop_condition:
+            output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
 
-              # Sample a token
-              sampled_token_index = np.argmax(output_tokens[0, -1, :])
-              sampled_token = reverse_target_word_index[sampled_token_index]
+            # Sample a token
+            sampled_token_index = np.argmax(output_tokens[0, -1, :])
+            sampled_token = reverse_target_word_index[sampled_token_index]
 
-              if (sampled_token != 'eostok'):
-                  decoded_sentence += ' ' + sampled_token
+            if(sampled_token!='eostok'):
+            decoded_sentence += ' '+sampled_token
 
-                  # Exit condition: either hit max length or find stop word.
-                  if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary - 1)):
-                      stop_condition = True
+                # Exit condition: either hit max length or find stop word.
+                if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_len_summary-1)):
+                stop_condition = True
 
-              # Update the target sequence (of length 1).
-              target_seq = np.zeros((1, 1))
-              target_seq[0, 0] = sampled_token_index
+            # Update the target sequence (of length 1).
+            target_seq = np.zeros((1,1))
+            target_seq[0, 0] = sampled_token_index
 
-              # Update internal states
-              e_h, e_c = h, c
+            # Update internal states
+            e_h, e_c = h, c
 
-          return decoded_sentence
-
-
+        return decoded_sentence
+    
       ## Making the seq2seq summary
       def seq2seqsummary(input_sequence):
-          newString = ''
-          for i in input_sequence:
-              if ((i != 0 and i != target_word_index['sostok']) and i != target_word_index['eostok']):
-                  newString = newString + reverse_target_word_index[i] + ' '
-          return newString
-
+        newString=''
+        for i in input_sequence:
+            if((i!=0 and i!=target_word_index['sostok']) and i!=target_word_index['eostok']):
+                newString=newString+reverse_target_word_index[i]+' '
+        return newString
 
       def seq2text(input_sequence):
-          newString = ''
-          for i in input_sequence:
-              if (i != 0):
-                  newString = newString + reverse_source_word_index[i] + ' '
-          return newString
-
-
+        newString=''
+        for i in input_sequence:
+            if(i!=0):
+                newString=newString+reverse_source_word_index[i]+' '
+        return newString
+    
+      print("Summarized:",decode_sequence(x_tr[i].reshape(1,max_len_text)))
+      print("\n")
+    
+    
       st.dataframe(data)
 
 

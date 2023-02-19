@@ -113,7 +113,7 @@ if choice == 'Summarize':
 
             cleaned_text = []
             for t in df['Text']:
-            cleaned_text.append(text_cleaner(t))
+                cleaned_text.append(text_cleaner(t))
 
         def summary_cleaner(text):
             newString = re.sub('"','', text)

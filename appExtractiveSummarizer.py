@@ -433,7 +433,7 @@ if choice == 'Summarize':
          
          st.success('Summary')
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
-         )
+         
          countOfWordsForSummary = len(str00.split())
          st.write("Count of Words For Summarized: ", countOfWordsForSummary)
      

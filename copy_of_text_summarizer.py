@@ -327,7 +327,7 @@ if choice == 'Summarize':
             newString=''
             for i in input_sequence:
                 if(i!=0):
-                newString=newString+reverse_source_word_index[i]+' '
+                    newString=newString+reverse_source_word_index[i]+' '
             return newString
 
         #st.write("Summarized:",decode_sequence(text))

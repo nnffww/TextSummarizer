@@ -672,7 +672,7 @@ if choice == 'Summarize':
             text = re.sub(r'\.',' . ',text)
             return text
          
-         st.success('Cleaned Text')
+         
          #Df['Text']=Df['Text'].apply(clean_text)
          Df['Text']=Df['Text'].apply(preprocess)
          st.dataframe(Df)
@@ -683,7 +683,7 @@ if choice == 'Summarize':
          stopwords = nltk.corpus.stopwords.words('english')
          
       
-         st.success('Word Tokenize')
+         
          for i in range(len(Df)):
             sToken = nltk.word_tokenize(Df['Text'][i])
             
@@ -726,7 +726,7 @@ if choice == 'Summarize':
          countOfWords10 = len(Df['Text'][9].split())
          
          Df['Count of Words'] = [countOfWords1, countOfWords2, countOfWords3, countOfWords4, countOfWords5, countOfWords6, countOfWords7, countOfWords8, countOfWords9, countOfWords10]
-         st.dataframe(Df)
+         
          
          str1 = textwrap.shorten(Df['Text'][0], width=1500, placeholder='.')
          str2 = textwrap.shorten(Df['Text'][1], width=1500, placeholder='.')

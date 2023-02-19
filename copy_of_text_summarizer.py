@@ -294,52 +294,52 @@ if choice == 'Summarize':
 
     def decode_sequence(inputText):
 
-    # Initialize the tokenizer
-    tokenizer = Tokenizer()
+        # Initialize the tokenizer
+        tokenizer = Tokenizer()
 
-    # Fit the tokenizer on the input text
-    tokenizer.fit_on_texts([inputText])
+        # Fit the tokenizer on the input text
+        tokenizer.fit_on_texts([inputText])
 
-    # Convert the input text to a sequence of integers
-    input_seq = tokenizer.texts_to_sequences([inputText])
-    
-    # Pad the input sequence to a maximum length of max_text_len
-    input_seq = pad_sequences(input_seq, maxlen=max_text_len, padding='post')
-
-    # Encode the input as state vectors.
-    e_out, e_h, e_c = encoder_model.predict(input_seq)
-    
-    # Generate empty target sequence of length 1
-    target_seq = np.zeros((1,1))
-    
-    # Populate the first word of target sequence with the start word.
-    target_seq[0, 0] = target_word_index['sostok']
-
-    stop_condition = False
-    decoded_sentence = ''
-    
-    while not stop_condition:
-        output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
-
-        # Sample a token
-        sampled_token_index = np.argmax(output_tokens[0, -1, :])
-        sampled_token = reverse_target_word_index[sampled_token_index]
+        # Convert the input text to a sequence of integers
+        input_seq = tokenizer.texts_to_sequences([inputText])
         
-        if(sampled_token != 'eostok'):
-            decoded_sentence += ' ' + sampled_token
+        # Pad the input sequence to a maximum length of max_text_len
+        input_seq = pad_sequences(input_seq, maxlen=max_text_len, padding='post')
 
-        # Exit condition: either hit max length or find stop word.
-        if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_summary_len - 1)):
-            stop_condition = True
-
-        # Update the target sequence (of length 1)
+        # Encode the input as state vectors.
+        e_out, e_h, e_c = encoder_model.predict(input_seq)
+        
+        # Generate empty target sequence of length 1
         target_seq = np.zeros((1,1))
-        target_seq[0, 0] = sampled_token_index
+        
+        # Populate the first word of target sequence with the start word.
+        target_seq[0, 0] = target_word_index['sostok']
 
-        # Update internal states
-        e_h, e_c = h, c
+        stop_condition = False
+        decoded_sentence = ''
+        
+        while not stop_condition:
+            output_tokens, h, c = decoder_model.predict([target_seq] + [e_out, e_h, e_c])
 
-    return decoded_sentence
+            # Sample a token
+            sampled_token_index = np.argmax(output_tokens[0, -1, :])
+            sampled_token = reverse_target_word_index[sampled_token_index]
+            
+            if(sampled_token != 'eostok'):
+                decoded_sentence += ' ' + sampled_token
+
+            # Exit condition: either hit max length or find stop word.
+            if (sampled_token == 'eostok' or len(decoded_sentence.split()) >= (max_summary_len - 1)):
+                stop_condition = True
+
+            # Update the target sequence (of length 1)
+            target_seq = np.zeros((1,1))
+            target_seq[0, 0] = sampled_token_index
+
+            # Update internal states
+            e_h, e_c = h, c
+
+        return decoded_sentence
     
     ## Making the seq2seq summary
     def seq2seqsummary(input_sequence):

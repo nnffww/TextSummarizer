@@ -357,4 +357,4 @@ if choice == 'Summarize':
       st.write(file_details)
       df = pd.read_csv(uploaded_file)
       st.dataframe(df)
-   if st.button("Summarize"):
+      if st.button("Summarize"):

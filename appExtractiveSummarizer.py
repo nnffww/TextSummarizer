@@ -78,258 +78,6 @@ if choice == 'News Article':
    df.info(buf=buffer)
    s = buffer.getvalue()
    st.text(s)
-  
-   clean = st.radio("Summarize the data",('Summarize', 'Cancel')) 
-   if clean == 'Select':
-      st.info('Select one either to process or not.', icon="ℹ️")
-   if clean == 'Summarize':
-      st.info('You want to process the list.', icon="ℹ️")
-      
-      contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
-
-                           "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
-
-                           "he'd": "he would","he'll": "he will", "he's": "he is", "how'd": "how did", "how'd'y": "how do you", "how'll": "how will", "how's": "how is",
-
-                           "I'd": "I would", "I'd've": "I would have", "I'll": "I will", "I'll've": "I will have","I'm": "I am", "I've": "I have", "i'd": "i would",
-
-                           "i'd've": "i would have", "i'll": "i will",  "i'll've": "i will have","i'm": "i am", "i've": "i have", "isn't": "is not", "it'd": "it would",
-
-                           "it'd've": "it would have", "it'll": "it will", "it'll've": "it will have","it's": "it is", "let's": "let us", "ma'am": "madam",
-
-                           "mayn't": "may not", "might've": "might have","mightn't": "might not","mightn't've": "might not have", "must've": "must have",
-                           
-                            "mustn't": "must not", "mustn't've": "must not have", "needn't": "need not", "needn't've": "need not have","o'clock": "of the clock",
-
-                           "oughtn't": "ought not", "oughtn't've": "ought not have", "shan't": "shall not", "sha'n't": "shall not", "shan't've": "shall not have",
-
-                           "she'd": "she would", "she'd've": "she would have", "she'll": "she will", "she'll've": "she will have", "she's": "she is",
-
-                           "should've": "should have", "shouldn't": "should not", "shouldn't've": "should not have", "so've": "so have","so's": "so as",
-
-                           "this's": "this is","that'd": "that would", "that'd've": "that would have", "that's": "that is", "there'd": "there would",
-
-                           "there'd've": "there would have", "there's": "there is", "here's": "here is","they'd": "they would", "they'd've": "they would have",
-
-                           "they'll": "they will", "they'll've": "they will have", "they're": "they are", "they've": "they have", "to've": "to have",
-
-                           "wasn't": "was not", "we'd": "we would", "we'd've": "we would have", "we'll": "we will", "we'll've": "we will have", "we're": "we are",
-                           
-                            "we've": "we have", "weren't": "were not", "what'll": "what will", "what'll've": "what will have", "what're": "what are",
-
-                           "what's": "what is", "what've": "what have", "when's": "when is", "when've": "when have", "where'd": "where did", "where's": "where is",
-
-                           "where've": "where have", "who'll": "who will", "who'll've": "who will have", "who's": "who is", "who've": "who have",
-
-                           "why's": "why is", "why've": "why have", "will've": "will have", "won't": "will not", "won't've": "will not have", "old old" : "old",
-
-                           "would've": "would have", "wouldn't": "would not", "wouldn't've": "would not have", "y'all": "you all", "g" : "", "possibly possibly" : "possibly",
-
-                           "y'all'd": "you all would","y'all'd've": "you all would have","y'all're": "you all are","y'all've": "you all have", "n" : "",
-
-                           "you'd": "you would", "you'd've": "you would have", "you'll": "you will", "you'll've": "you will have", "l" : "",
-
-                           "you're": "you are", "you've": "you have", "chapter": "", "page" : "", "ab" : "", "j" : "", "k" : "", "r" : "", "w" : "",}
-         
-      def clean_text(text):
-            text = text.lower()
-            text = ' '.join([contraction_mapping[i] if i in contraction_mapping.keys() else i for i in text.split()])
-            text=re.sub(r'\(.*\)',"",text)
-            text=re.sub("'s","",text)
-            text=re.sub('"','',text)
-            text=' '.join([i for i in text.split() if i.isalpha()])
-            text=re.sub('[^a-zA-Z]'," ",text)
-            return text
-         
-      stop_words = stopwords.words('english')
-
-      def preprocess(text):
-         text = text.lower() # lowercase
-         text = text.split() # convert have'nt -> have not
-         for i in range(len(text)):
-            word = text[i]
-            if word in contraction_mapping:
-               text[i] = contraction_mapping[word]
-         text = " ".join(text)
-         text = text.split()
-         newtext = []
-         for word in text:
-            if word not in stop_words:
-               newtext.append(word)
-         text = " ".join(newtext)
-         text = text.replace("'s",'') # convert your's -> your
-         text = re.sub(r'\(.*\)','',text) # remove (words)
-         text = re.sub(r'[^a-zA-Z ]','',text) # remove punctuations
-         punctuation = '''!()-[]{};:'"\,<>/?@#$%^&*_~'''
-         final_string = ''
-         for ch in text:
-            if ch not in punctuation:
-               final_string = final_string + ch
-         text = re.sub(r'\.',' . ',text)
-         return text
-         
-      st.success('Cleaned Description')
-      df['Description'] = df['Description'].apply(clean_text)
-      df['Description'] = df['Description'].apply(preprocess)
-      st.dataframe(df)
-      
-      st.write("List of Fiction Book after processing")
-      st.write(df.head(20))
-      st.download_button("Download CSV",
-                         df.to_csv(),
-                         file_name = 'listBook.csv',
-                         mime = 'text/csv')
-      stopwords = st.checkbox('Stopwords')
-      if stopwords:
-         stopwords = nltk.corpus.stopwords.words('english')
-         st.write(stopwords[:100])
-      contraction = st.checkbox('Contraction Map')
-      if contraction:
-         contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
-
-                           "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
-
-                           "he'd": "he would","he'll": "he will", "he's": "he is", "how'd": "how did", "how'd'y": "how do you", "how'll": "how will", "how's": "how is",
-
-                           "I'd": "I would", "I'd've": "I would have", "I'll": "I will", "I'll've": "I will have","I'm": "I am", "I've": "I have", "i'd": "i would",
-
-                           "i'd've": "i would have", "i'll": "i will",  "i'll've": "i will have","i'm": "i am", "i've": "i have", "isn't": "is not", "it'd": "it would",
-
-                           "it'd've": "it would have", "it'll": "it will", "it'll've": "it will have","it's": "it is", "let's": "let us", "ma'am": "madam",
-
-                           "mayn't": "may not", "might've": "might have","mightn't": "might not","mightn't've": "might not have", "must've": "must have",
-                           
-                            "mustn't": "must not", "mustn't've": "must not have", "needn't": "need not", "needn't've": "need not have","o'clock": "of the clock",
-
-                           "oughtn't": "ought not", "oughtn't've": "ought not have", "shan't": "shall not", "sha'n't": "shall not", "shan't've": "shall not have",
-
-                           "she'd": "she would", "she'd've": "she would have", "she'll": "she will", "she'll've": "she will have", "she's": "she is",
-
-                           "should've": "should have", "shouldn't": "should not", "shouldn't've": "should not have", "so've": "so have","so's": "so as",
-
-                           "this's": "this is","that'd": "that would", "that'd've": "that would have", "that's": "that is", "there'd": "there would",
-
-                           "there'd've": "there would have", "there's": "there is", "here's": "here is","they'd": "they would", "they'd've": "they would have",
-
-                           "they'll": "they will", "they'll've": "they will have", "they're": "they are", "they've": "they have", "to've": "to have",
-
-                           "wasn't": "was not", "we'd": "we would", "we'd've": "we would have", "we'll": "we will", "we'll've": "we will have", "we're": "we are",
-                           
-                            "we've": "we have", "weren't": "were not", "what'll": "what will", "what'll've": "what will have", "what're": "what are",
-
-                           "what's": "what is", "what've": "what have", "when's": "when is", "when've": "when have", "where'd": "where did", "where's": "where is",
-
-                           "where've": "where have", "who'll": "who will", "who'll've": "who will have", "who's": "who is", "who've": "who have",
-
-                           "why's": "why is", "why've": "why have", "will've": "will have", "won't": "will not", "won't've": "will not have", "old old" : "old",
-
-                           "would've": "would have", "wouldn't": "would not", "wouldn't've": "would not have", "y'all": "you all", "g" : "", "possibly possibly" : "possibly",
-
-                           "y'all'd": "you all would","y'all'd've": "you all would have","y'all're": "you all are","y'all've": "you all have", "n" : "",
-
-                           "you'd": "you would", "you'd've": "you would have", "you'll": "you will", "you'll've": "you will have", "l" : "",
-
-                           "you're": "you are", "you've": "you have", "chapter": "", "page" : "", "ab" : "", "j" : "", "k" : "", "r" : "", "w" : "",}
-         
-         st.text(contraction_mapping)
-   if clean == 'Cancel':
-      st.info('You do not want to process the list.', icon="ℹ️")
-   option = st.selectbox('Select Category', category)
-   if option == 'Story':
-      st.write("Select the box to view the content")
-      book1 = st.checkbox('Adventures of Huckleberry Finn')
-      if book1:
-         st.write(df['Title'][0])
-         st.write(df['Description'][0])
-         content1 = df['Description'][0]
-         st.download_button('Download', content1)
-      book2 = st.checkbox('A Ghost of A Chance')
-      if book2:
-         st.write(df['Title'][1])
-         st.write(df['Description'][1])
-         content2 = df['Description'][1]
-         st.download_button('Download', content2)
-      book3 = st.checkbox('Grimm Fairy Tales')
-      if book3:
-         st.write(df['Title'][2])
-         st.write(df['Description'][2])
-         content3 = df['Description'][2]
-         st.download_button('Download', content3)
-      book4 = st.checkbox('Anais of Brightshire')
-      if book4:
-         st.write(df['Title'][3])
-         st.write(df['Description'][3])
-         content4 = df['Description'][3]
-         st.download_button('Download', content4)
-      book5 = st.checkbox('A Princess of Mars')
-      if book5:
-         st.write(df['Title'][4])
-         st.write(df['Description'][4])
-         content5 = df['Description'][4]
-         st.download_button('Download', content5)
-      book6 = st.checkbox('Ardath')
-      if book6:
-         st.write(df['Title'][5])
-         st.write(df['Description'][5])
-         content6 = df['Description'][5]
-         st.download_button('Download', content6)
-      book7 = st.checkbox('Heart of Darkness')
-      if book7:
-         st.write(df['Title'][6])
-         st.write(df['Description'][6])
-         content7 = df['Description'][6]
-         st.download_button('Download', content7)
-      book8 = st.checkbox('Ella Eris and The Pirates of Redemption')
-      if book8:
-         st.write(df['Title'][7])
-         st.write(df['Description'][7])
-         content8 = df['Description'][7]
-         st.download_button('Download', content8)
-            
-   if option == 'Harry Potter':
-      st.write("Select the box to view the content")
-      book9 = st.checkbox('[1]Harry Potter - The Boy Who Lived')
-      if book9:
-         st.write(df['Title'][8])
-         st.text(df['Description'][8])
-         content9 = df['Description'][8]
-         st.download_button('Download', content9)
-      book10 = st.checkbox('[2]Harry Potter - The Worst Birthday')
-      if book10:
-         st.write(df['Title'][9])
-         st.text(df['Description'][9])
-         content10 = df['Description'][9]
-         st.download_button('Download', content10)
-      book11 = st.checkbox('[3]Harry Potter - Owl Post')
-      if book11:
-         st.write(df['Title'][10])
-         st.text(df['Description'][10])
-         content11 = df['Description'][10]
-         st.download_button('Download', content11)
-      book12 = st.checkbox('[4]Harry Potter - The Riddle House')
-      if book12:
-         st.write(df['Title'][11])
-         st.text(df['Description'][11])
-         content12 = df['Description'][11]
-         st.download_button('Download', content12)
-      book13 = st.checkbox('[5]Harry Potter - Dudley Demented')
-      if book13:
-         st.write(df['Title'][12])
-         st.text(df['Description'][12])
-         content13 = df['Description'][12]
-         st.download_button('Download', content13)
-      book14 = st.checkbox('[6]Harry Potter - The Other Minister')
-      if book14:
-         st.write(df['Title'][13])
-         st.text(df['Description'][13])
-         content14 = df['Description'][13]
-         st.download_button('Download', content14)
-      book15 = st.checkbox('[7]Harry Potter - The Dark Lord Ascending')
-      if book15:
-         st.write(df['Title'][14])
-         st.text(df['Description'][14])
-         content15 = df['Description'][14]
-         st.download_button('Download', content15)
 
 if choice == 'Summarize':
    st.markdown("<h2 style='text-align: center; color: white;'>TEXT SUMMARIZER</h2>", unsafe_allow_html=True)
@@ -453,7 +201,7 @@ if choice == 'Summarize':
          countOfWords = len(raw_text.split())
          st.write("Count of Words: ", countOfWords)
       if st.button('Summarize file'):
-         st.info("Results")
+         st.info("Summarized")
          contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 
                            "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
@@ -538,16 +286,16 @@ if choice == 'Summarize':
                      sentence_scores[sentence] = word_frequencies[word]
                   else:
                      sentence_scores[sentence] += word_frequencies[word]
-         st.success('Word Frequency')
+         
          word_frequencies
-         st.success('Sentence Score')
+         
          sentence_scores
          
-         st.success('Word Tokenize')
+         
          sToken = nltk.word_tokenize(raw_text)
          st.write(sToken)
-         st.success('Stopwords')
-         st.write("List of stopwords:")
+         
+         
          stopwords = nltk.corpus.stopwords.words('english')
          st.write(stopwords[:10])
          st.success('Summary')

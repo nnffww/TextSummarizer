@@ -85,7 +85,7 @@ if choice == 'Summarize':
       text = st.text_area("Original Content","Enter text here")
       submitted = st.form_submit_button("Summarize")
       if submitted:
-         st.info("Summarized")
+         st.info("Result")
          contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 
                            "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
@@ -171,16 +171,16 @@ if choice == 'Summarize':
          
          
          sToken = nltk.word_tokenize(text)
-         st.write(sToken)
+         
         
          
          stopwords = nltk.corpus.stopwords.words('english')
-         st.write(stopwords[:10])
-         st.success('Summary')
+         
+         st.success('Summarized')
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
          st.write(str00)
          countOfWordsForSummary = len(str00.split())
-         
+         st.write("Count of Words For Summary: ", countOfWordsForSummary)
      
    uploaded_txt = st.file_uploader("Choose a file",type=["txt"])
    if uploaded_txt is not None:

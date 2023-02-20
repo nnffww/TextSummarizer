@@ -479,7 +479,7 @@ if choice == 'Summarize':
 
          st.success('Details Summarized')
          # Boolean to resize the dataframe, stored as a session state variable
-         st.write("Use container width", value=False, key="use_container_width")
+         st.checkbox("Use container width", value=False, key="use_container_width")
          
          df = load_data()
          

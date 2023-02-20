@@ -70,14 +70,39 @@ if choice == 'News Article':
                         df.to_csv(),
                         file_name = 'BusinessArticle.csv',
                         mime = 'text/csv')
-  
-   st.write("Shape")
-   st.write(df.shape)
-   st.write("Info")
-   buffer = io.StringIO()
-   df.info(buf=buffer)
-   s = buffer.getvalue()
-   st.text(s)
+   if option == 'Entertaiment':
+      url = 'https://raw.githubusercontent.com/faraawaheeda/streamlitProject/main/business%20data.csv?token=GHSAT0AAAAAAB44S4MWPQE3QEME6JT4YSV4Y6Q4XLQ'
+      df = pd.read_csv(url,encoding="latin-1")
+      st.write(df.head(20))
+      st.download_button("Download",
+                        df.to_csv(),
+                        file_name = 'BusinessArticle.csv',
+                        mime = 'text/csv')
+   if option == 'Politics':
+      url = 'https://raw.githubusercontent.com/faraawaheeda/streamlitProject/main/business%20data.csv?token=GHSAT0AAAAAAB44S4MWPQE3QEME6JT4YSV4Y6Q4XLQ'
+      df = pd.read_csv(url,encoding="latin-1")
+      st.write(df.head(20))
+      st.download_button("Download",
+                        df.to_csv(),
+                        file_name = 'BusinessArticle.csv',
+                        mime = 'text/csv')
+   if option == 'Sport':
+      url = 'https://raw.githubusercontent.com/faraawaheeda/streamlitProject/main/business%20data.csv?token=GHSAT0AAAAAAB44S4MWPQE3QEME6JT4YSV4Y6Q4XLQ'
+      df = pd.read_csv(url,encoding="latin-1")
+      st.write(df.head(20))
+      st.download_button("Download",
+                        df.to_csv(),
+                        file_name = 'BusinessArticle.csv',
+                        mime = 'text/csv')
+   if option == 'Technology':
+      url = 'https://raw.githubusercontent.com/faraawaheeda/streamlitProject/main/business%20data.csv?token=GHSAT0AAAAAAB44S4MWPQE3QEME6JT4YSV4Y6Q4XLQ'
+      df = pd.read_csv(url,encoding="latin-1")
+      st.write(df.head(20))
+      st.download_button("Download",
+                        df.to_csv(),
+                        file_name = 'BusinessArticle.csv',
+                        mime = 'text/csv')
+      
 
 if choice == 'Summarize':
    st.markdown("<h2 style='text-align: center; color: white;'>TEXT SUMMARIZER</h2>", unsafe_allow_html=True)

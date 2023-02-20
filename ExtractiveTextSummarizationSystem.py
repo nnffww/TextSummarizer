@@ -196,9 +196,7 @@ if choice == 'Summarize':
      
    uploaded_txt = st.file_uploader("Choose a file",type=["txt"])
    if uploaded_txt is not None:
-      st.write(type(uploaded_txt))
-      file_details_txt = {"filename":uploaded_txt.name,"filetype":uploaded_txt.type,"filesize":uploaded_txt.size}
-      st.write(file_details_txt)
+      st.write(type(uploaded_txt))     
       if uploaded_txt.type =="text/plain":
          Dftxt = uploaded_txt.read()
          raw_text = str(Dftxt,"utf-8")

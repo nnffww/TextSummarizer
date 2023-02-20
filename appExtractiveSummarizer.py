@@ -499,5 +499,9 @@ if choice == 'Summarize':
          # Display the dataframe and allow the user to stretch the dataframe
          # across the full width of the container, based on the checkbox value
          st.dataframe(df, use_container_width=st.session_state.use_container_width)
+         st.download_button("Download",
+                        df.to_csv(),
+                        file_name = 'BusinessArticle.csv',
+                        mime = 'text/csv')
 
       

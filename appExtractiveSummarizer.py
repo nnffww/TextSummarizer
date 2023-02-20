@@ -256,13 +256,12 @@ if choice == 'Summarize':
             return ' '.join(word_list)
          
          rm_stopwords_from_text(raw_text)
-         st.success('Cleaned Text')
+         st.success('Summarized')
         
+         
+         
          countOfWordsForCleaned = len(raw_text.split())
-         st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
-         st.write(raw_text)
-         countOfWordsForCleaned = len(raw_text.split())
-         st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
+         st.write("Words: ", countOfWordsForCleaned)
                   
          word_frequencies = {}
          for word in nltk.word_tokenize(raw_text):

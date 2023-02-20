@@ -257,7 +257,7 @@ if choice == 'Summarize':
          
          rm_stopwords_from_text(raw_text)
          st.success('Cleaned Text')
-         st.write(raw_text)
+        
          countOfWordsForCleaned = len(raw_text.split())
          st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
          
@@ -291,9 +291,9 @@ if choice == 'Summarize':
          
          stopwords = nltk.corpus.stopwords.words('english')
         
-         st.success('Summary')
-         str00 = textwrap.shorten(raw_text, width=1500, placeholder='.')
-         
+         st.success('Summarized')
+         str00 = textwrap.shorten(text, width=1300, placeholder='.')
+         st.write(str00)
          countOfWordsForSummary = len(str00.split())
          st.write("Count of Words For Summary: ", countOfWordsForSummary)
          

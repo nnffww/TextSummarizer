@@ -295,11 +295,8 @@ if choice == 'Summarize':
          st.write("List of stopwords:")
          stopwords = nltk.corpus.stopwords.words('english')
          st.write(stopwords[:10])
-         st.success('Summarized')
-         str00 = textwrap.shorten(text, width=1300, placeholder='.')
-         st.write(str00)
-         countOfWordsForSummary = len(str00.split())
-         st.write("Count of Words For Summary: ", countOfWordsForSummary)
+         
+         
          
    uploaded_file = st.file_uploader("Choose a file",type=["csv"])
    if uploaded_file is not None:

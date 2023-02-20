@@ -194,7 +194,7 @@ if choice == 'Summarize':
          countOfWords = len(raw_text.split())
          st.write("Count of Words: ", countOfWords)
       if st.button('Summarize file'):
-         st.info("Summarized")
+         st.info("Result")
          contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 
                            "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
@@ -260,7 +260,10 @@ if choice == 'Summarize':
         
          countOfWordsForCleaned = len(raw_text.split())
          st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
-         
+         st.write(raw_text)
+         countOfWordsForCleaned = len(raw_text.split())
+         st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
+                  
          word_frequencies = {}
          for word in nltk.word_tokenize(raw_text):
             if word not in word_frequencies:
@@ -280,17 +283,18 @@ if choice == 'Summarize':
                   else:
                      sentence_scores[sentence] += word_frequencies[word]
          
+         st.success('Word Frequency')
          word_frequencies
-         
+         st.success('Sentence Score')
          sentence_scores
          
-         
+         st.success('Word Tokenize')
          sToken = nltk.word_tokenize(raw_text)
-         
-         
-         
+         st.write(sToken)
+         st.success('Stopwords')
+         st.write("List of stopwords:")
          stopwords = nltk.corpus.stopwords.words('english')
-        
+         st.write(stopwords[:10])
          st.success('Summarized')
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
          st.write(str00)

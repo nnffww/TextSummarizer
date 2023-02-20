@@ -412,20 +412,23 @@ if choice == 'Summarize':
             text = re.sub(r'\.',' . ',text)
             return text
          
-         
+         st.success('Cleaned Text')
          #Df['Text']=Df['Text'].apply(clean_text)
          Df['Text']=Df['Text'].apply(preprocess)
          st.dataframe(Df)
          
          stop = stopwords.words('english')
          Df['Text']= Df['Text'].apply(lambda x: " ".join(x for x in x.split() if x not in stop))    
+         st.success('Stopwords')
+         st.write("List of stopwords:")
          stopwords = nltk.corpus.stopwords.words('english')
-         
+         st.write(stopwords[:10])
       
-         
+         st.success('Word Tokenize')
          for i in range(len(Df)):
             sToken = nltk.word_tokenize(Df['Text'][i])
             st.write(i+1, "Text")
+            st.write(sToken)
          
          #X_train,X_val,Y_train,Y_val=train_test_split(Df['Description'],Df['Title'],test_size=0.3,random_state=20)
          #st.write(len(X_train),len(Y_train))

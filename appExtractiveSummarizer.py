@@ -147,11 +147,7 @@ if choice == 'Summarize':
             return ' '.join(word_list)
          
          rm_stopwords_from_text(text)
-         st.success('Cleaned Text')
-         st.write(text)
-         countOfWordsForCleaned = len(text.split())
-         st.write("Count of Words For Cleaned: ", countOfWordsForCleaned)
-         
+                 
          word_frequencies = {}
          for word in nltk.word_tokenize(text):
             if word not in word_frequencies:
@@ -184,7 +180,7 @@ if choice == 'Summarize':
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
          st.write(str00)
          countOfWordsForSummary = len(str00.split())
-         st.write("Count of Words For Summarized: ", countOfWordsForSummary)
+         
      
    uploaded_txt = st.file_uploader("Choose a file",type=["txt"])
    if uploaded_txt is not None:

@@ -180,7 +180,7 @@ if choice == 'Summarize':
          str00 = textwrap.shorten(text, width=1300, placeholder='.')
          st.write(str00)
          countOfWordsForSummary = len(str00.split())
-         st.write("Count of Words For Summary: ", countOfWordsForSummary)
+         st.write("Words: ", countOfWordsForSummary)
      
    uploaded_txt = st.file_uploader("Choose a file",type=["txt"])
    if uploaded_txt is not None:
@@ -283,9 +283,7 @@ if choice == 'Summarize':
                      sentence_scores[sentence] += word_frequencies[word]
          
          
-         word_frequencies
-         
-         sentence_scores
+        
          
          
          sToken = nltk.word_tokenize(raw_text)

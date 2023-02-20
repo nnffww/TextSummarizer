@@ -85,7 +85,7 @@ if choice == 'Summarize':
       text = st.text_area("Original Content","Enter text here")
       submitted = st.form_submit_button("Summarize")
       if submitted:
-         st.info("Result")
+         st.info("Summarized")
          contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",
 
                            "didn't": "did not", "doesn't": "does not", "don't": "do not", "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
@@ -171,16 +171,13 @@ if choice == 'Summarize':
                   else:
                      sentence_scores[sentence] += word_frequencies[word]
          
-         st.success('Word Frequency')
-         word_frequencies
-         st.success('Sentence Score')
-         sentence_scores
          
-         st.success('Word Tokenize')
+         
+         
          sToken = nltk.word_tokenize(text)
          st.write(sToken)
-         st.success('Stopwords')
-         st.write("List of stopwords:")
+        
+         
          stopwords = nltk.corpus.stopwords.words('english')
          st.write(stopwords[:10])
          st.success('Summary')

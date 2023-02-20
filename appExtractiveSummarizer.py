@@ -317,7 +317,7 @@ if choice == 'Summarize':
          st.text(s)
       
       if st.button('Summarize file'):
-         st.info("Summarize")
+         st.info("Results")
          original1 = Df['Text'][0]
          original2 = Df['Text'][1]
          original3 = Df['Text'][2]
@@ -425,7 +425,7 @@ if choice == 'Summarize':
          
          for i in range(len(Df)):
             sToken = nltk.word_tokenize(Df['Text'][i])
-            
+            st.write(i+1, "Text")
          
          #X_train,X_val,Y_train,Y_val=train_test_split(Df['Description'],Df['Title'],test_size=0.3,random_state=20)
          #st.write(len(X_train),len(Y_train))
@@ -447,7 +447,11 @@ if choice == 'Summarize':
             if value < thresh:
                count += 1
                frequency += value
-         
+               
+         st.write("% of rare words in vocabulary: ", (count/total_count)*100.0)
+         st.write("Total Coverage of rare words: ", (frequency/total_frequency)*100.0)
+         s_max_features = total_count-count
+         st.write("Summary Vocab: ", s_max_features)
          
          countOfWords1 = len(Df['Text'][0].split())
          countOfWords2 = len(Df['Text'][1].split())

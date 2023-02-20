@@ -257,7 +257,7 @@ if choice == 'Summarize':
          
          rm_stopwords_from_text(raw_text)
          st.success('Summarized')
-        
+         st.write(raw_text)
          
          
          countOfWordsForCleaned = len(raw_text.split())

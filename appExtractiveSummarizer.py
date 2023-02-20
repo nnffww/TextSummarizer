@@ -302,19 +302,6 @@ if choice == 'Summarize':
       file_details = {"filename":uploaded_file.name,"filetype":uploaded_file.type,"filesize":uploaded_file.size}
       Df = pd.read_csv(uploaded_file)
       st.dataframe(Df)
-      check_info = st.checkbox('File Information')
-      if check_info:
-         st.write("File Type")
-         st.write(type_file)
-         st.write("File Details")
-         st.write(file_details)
-         st.write("Shape")
-         st.write(Df.shape)
-         st.write("Info")
-         buffer = io.StringIO()
-         Df.info(buf=buffer)
-         s = buffer.getvalue()
-         st.text(s)
       
       if st.button('Summarize file'):
          st.info("Results")
@@ -492,7 +479,7 @@ if choice == 'Summarize':
 
          st.success('Details Summarized')
          # Boolean to resize the dataframe, stored as a session state variable
-         st.checkbox("Use container width", value=False, key="use_container_width")
+         
          
          df = load_data()
          

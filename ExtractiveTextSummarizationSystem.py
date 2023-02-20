@@ -204,7 +204,7 @@ if choice == 'Summarize':
          raw_text = str(Dftxt,"utf-8")
          st.text(raw_text)
          countOfWords = len(raw_text.split())
-         st.write("Count of Words: ", countOfWords)
+         st.write("Words: ", countOfWords)
       if st.button('Summarize file'):
          st.info("Result")
          contraction_mapping = {"ain't": "is not", "aren't": "are not","can't": "cannot", "'cause": "because", "could've": "could have", "couldn't": "could not",

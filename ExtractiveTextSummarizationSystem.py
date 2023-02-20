@@ -38,7 +38,7 @@ from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 st.set_page_config(page_title="Extractive Text Summarization", page_icon=":tada:", layout="wide")
-st.markdown("<h1 style='text-align: center; color: white;'>EXTRACTIVE BASED TEXT SUMMARIZATION USING SENTIMENT ANALYSIS</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: white;'>EXTRACTIVE BASED TEXT SUMMARIZATION SYSTEM USING SENTIMENT ANALYSIS</h1>", unsafe_allow_html=True)
 st.markdown("<hr size='5' width='100%;'>", unsafe_allow_html=True)
 activities = ["News Article","Summarize"]
 choice = st.sidebar.selectbox("Select Activity", activities)

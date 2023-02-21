@@ -50,7 +50,7 @@ if choice == 'News Article':
    option = st.selectbox("Select News Article", category)
     
    if option == 'Business':
-      url = 'https://raw.githubusercontent.com/faraawaheeda/streamlitProject/main/business%20data.csv?token=GHSAT0AAAAAAB44S4MWPQE3QEME6JT4YSV4Y6Q4XLQ'
+      url = 'https://raw.githubusercontent.com/nnffww/TextSummarizer/main/business%20_data.csv'
       df = pd.read_csv(url,encoding="latin-1")
       st.write(df.head(20))
       st.download_button("Download",
